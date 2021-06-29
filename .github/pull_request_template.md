@@ -17,7 +17,7 @@
 <!--- Include images relevant to the PR here. --->
 
 
-## Checklist:
+## Checklist
 <!--- Put an `x` in each box as you check off the items -->
 - [ ] I have performed a review of my changes locally
 - [ ] I have checked that no sensitive data is committed in the git history
