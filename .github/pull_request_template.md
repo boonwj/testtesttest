@@ -1,7 +1,5 @@
-<!--- Provide a general summary of this PR in the Title above -->
-
 ## Description
-<!--- Describe the changes in detail -->
+<!--- Provide a general summary and describe the changes in detail -->
 
 ## Motivation and Context
 <!--- Why is this change required? What problem does it solve? -->
@@ -12,20 +10,15 @@
 <!--- Include details of your testing environment, and the tests you ran to -->
 <!--- see how your change affects other areas of the code, etc. -->
 
-## Screenshots (if appropriate):
-
-## Types of changes
-<!--- What types of changes does this PR introduce? Put an `x` in boxes that apply: -->
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to change)
-- [ ] Documentation update required (changes that requires updates to the documentation)
+## Screenshots
+<!--- Include images relevant to the PR here. --->
 
 ## Checklist:
-<!--- Put an `x` in boxes that apply. -->
-- [ ] I have performed a self-review of my code
+<!--- Put an `x` in each box as you check off the items -->
+- [ ] I have performed a review of my changes locally
 - [ ] I have checked that no sensitive data is committed in the git history
-- [ ] I have commented my code in hard-to-understand cases
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] I have verified that new and existing unit tests pass locally with my changes
-- [ ] I have updated the documentation accordingly
+- [ ] I have checked that the correct labels are applied to the PR (e.g. `BREAKING CHANGE` if the PR introduces one)
+- [ ] I have added comments if my changes contain hard-to-understand logic
+- [ ] I have added tests or detailed the steps to verify that my changes work
+- [ ] I have verified that new and existing unit tests pass locally
+- [ ] I have updated the documentation if required
