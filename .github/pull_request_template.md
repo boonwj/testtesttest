@@ -4,7 +4,12 @@
 
 ## Motivation and Context
 <!--- Why is this change required? What problem does it solve? -->
-<!--- If it fixes an open issue, please link to the issue here. -->
+
+
+## Linked Issues
+<!--- If it resolves any open issue, please link them here. -->
+<!--- e.g. resolves #10, resolves #11 (issues from the same repo) -->
+<!--- e.g. resolves dsaidgovsg/tcs-ui#11 (issues from an external repo) -->
 
 
 ## How Has This Been Tested?
