@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 ## Description
-<!--- Describe the task and scope of this work item --->
+<!--- Describe the task and scope of this item --->
 
 
 ## Acceptance or Requirements Criteria
@@ -17,7 +17,7 @@ assignees: ''
 <!--- - [ ] #1 (internal) or - [ ] dsaidgovsg/tcs-ui#1 (external) --->
 
 
-## Estimates
+## Effort Estimation
 <!--- Provide estimates of the effort here.--->
 <!--- Alternatively, use labels --->
 
