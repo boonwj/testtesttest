@@ -1,6 +1,6 @@
 ---
-name: Backlog Item
-about: Track a backlog item with this
+name: Product Backlog Item
+about: Track new product backlog item with this
 title: ''
 labels: ''
 assignees: ''
@@ -11,16 +11,17 @@ assignees: ''
 <!--- Describe the task and scope of this work item --->
 
 
+## Acceptance or Requirements Criteria
+<!--- Detail the requirements needed for this item --->
+<!--- It can be a checklist of tasks, or other issues/PRs -->
+<!--- - [ ] #1 (internal) or - [ ] dsaidgovsg/tcs-ui#1 (external) --->
 
-## Acceptance Criteria
-<!--- Provide a link or detail the test plan --->
 
-
-## Estimated Effort
-<!--- Provide an estimate of the effort required --->
-<!--- e.g. fibonancci (1,2,3,5,8) or S/M/L  (??) --->
+## Estimates
+<!--- Provide estimates of the effort here.--->
+<!--- Alternatively, use labels --->
 
 
 ## Additional Information / References
-<!--- Provide additional information in this section --->
+<!--- Provide any additional information in this section --->
 
