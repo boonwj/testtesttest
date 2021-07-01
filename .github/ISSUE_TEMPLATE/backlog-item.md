@@ -1,6 +1,6 @@
 ---
 name: Product Backlog Item
-about: Track new product backlog item with this
+about: Consolidate and track product backlog items with this
 title: ''
 labels: ''
 assignees: ''
@@ -8,18 +8,18 @@ assignees: ''
 ---
 
 ## Description
-<!--- Describe the task and scope of this work item --->
+<!--- Describe the need and scope of this item --->
 
 
-## Acceptance or Requirements Criteria
-<!--- Detail the requirements needed for this item --->
+## Tasks
+<!--- Detail the tasks needed to complete this item --->
 <!--- It can be a checklist of tasks, or other issues/PRs -->
 <!--- - [ ] #1 (internal) or - [ ] dsaidgovsg/tcs-ui#1 (external) --->
 
 
-## Estimates
+## Effort Estimation
 <!--- Provide estimates of the effort here.--->
-<!--- Alternatively, use labels --->
+<!--- Alternatively, remove this section and use labels --->
 
 
 ## Additional Information / References
