@@ -1,6 +1,6 @@
 ---
-name: Product Backlog Item (PBI)
-about: Track a unit of work with this template
+name: Backlog Item
+about: Track a backlog item with this
 title: ''
 labels: ''
 assignees: ''

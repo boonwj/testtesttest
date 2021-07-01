@@ -1,6 +1,6 @@
 ---
 name: Product Backlog
-about: Create a product backlog
+about: Track backlog items with this
 title: '[Sprint #?]: '
 labels: ''
 assignees: ''
