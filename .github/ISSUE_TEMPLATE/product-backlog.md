@@ -1,16 +1,17 @@
 ---
 name: Product Backlog
 about: Create a product backlog
-title: '[Backlog]: '
+title: '[Sprint #?]: '
 labels: ''
 assignees: ''
 
 ---
 
-Sprint Number |  Est. Size | Est. Time (Days) | Link to Retro Board
-------------- | ---------- | ---------------- | -------------------
 <!--- The sprint details for this item, remember to separate it with `|` --->
-<!--- e.g. 1 | S | 7 days | https://github.com/dsaidgovsg/tcs-core/projects/28 --->
+<!--- e.g. S | 7 days | https://github.com/dsaidgovsg/tcs-core/projects/28 --->
+Est. Size | Est. Time (Days) | Link to Retro Board
+--- | --- | ---
+??? | ??? | ???
 
 ## Description
 <!--- Describe the changes to be introduced in this sprint --->
