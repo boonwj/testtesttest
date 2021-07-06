@@ -1,6 +1,6 @@
 ---
 name: Product Backlog Item
-about: Consolidate and track product backlog items with this
+about: Consolidate and track tasks assocated with a product backlog
 title: ''
 labels: pbi
 assignees: ''
@@ -13,8 +13,10 @@ assignees: ''
 
 ## Tasks
 <!--- Detail the tasks needed to complete this item --->
-<!--- It can be a checklist of tasks, or other issues/PRs -->
-<!--- - [ ] #1 (internal) or - [ ] dsaidgovsg/tcs-ui#1 (external) --->
+<!--- It can be a checklist of tasks, or other issues/PRs --->
+<!--- - [ ] #1 (internal issue/pr) --->
+<!--- - [ ] dsaidgovsg/tcs-ui#1 (external issue/pr) --->
+<!--- - [ ] clean dishes (general task, no issue) --->
 
 
 ## Effort Estimation
@@ -24,3 +26,4 @@ assignees: ''
 
 ## Additional Information / References
 <!--- Provide any additional information in this section --->
+
