@@ -2,7 +2,7 @@
 name: Product Backlog Item
 about: Consolidate and track product backlog items with this
 title: ''
-labels: ''
+labels: pbi
 assignees: ''
 
 ---
@@ -24,4 +24,3 @@ assignees: ''
 
 ## Additional Information / References
 <!--- Provide any additional information in this section --->
-
