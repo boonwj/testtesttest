@@ -19,9 +19,9 @@ assignees: ''
 <!--- - [ ] clean dishes (general task, no issue) --->
 
 
-## Effort Estimation
-<!--- Provide estimates of the effort here.--->
-<!--- Alternatively, remove this section and use labels --->
+## Timelines (if any)
+<!--- If necessary, detail any immediate or hard deadlines here --->
+<!--- Remember to add an effort estimation label (effort/XX) --->
 
 
 ## Additional Information / References
