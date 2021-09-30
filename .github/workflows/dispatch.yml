@@ -17,3 +17,5 @@ jobs:
         run: echo $(git rev-parse --short HEAD)
       - name: Get current hash v2
         run: echo $(git rev-parse --short "$GITHUB_SHA")
+      - name: Get trigger event
+        run: echo "${{ github.event.action }}"
