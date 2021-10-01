@@ -1,4 +1,4 @@
-name: Release Tags
+name: Deploy Test
 
 on:
   push:
@@ -55,5 +55,5 @@ jobs:
         run: |
           echo "Build Time: ${{ steps.build_time.outputs.build_time }}"
           echo "Build Version: ${{ steps.deploy_info.outputs.build_version }}"
-          echo "Env Type: ${{ steps.deploy_info.outputs.env_typ }}"
+          echo "Env Type: ${{ steps.deploy_info.outputs.env_type }}"
           echo "Env Type Cap: ${{ steps.deploy_info.outputs.env_type_cap }}"
