@@ -1,0 +1,59 @@
+name: Release Tags
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+  workflow_dispatch:
+    inputs:
+      env_type:
+        description: 'Deploy to stg or prd'
+        required: true
+        default: 'stg'
+      build_version:
+        description: 'Set build version. Defaults to git commit id if empty.'
+        required: false
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get deployment environment
+        id: deploy_info
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            env_type="prd"
+            build_version="${GITHUB_REF#refs/tags/v}"
+          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            env_type="${{ github.event.inputs.env_type }}"
+            if [[ "${env_type}" != "stg" && "${env_type}" != "prd" ]]; then
+              echo "Please enter stg/prd for env_type."
+              exit 1
+            fi
+            build_version="${{ github.event.inputs.build_version }}"
+            if [[ "${build_version}" == "" ]]; then
+              build_version="${GITHUB_SHA::8}"
+            fi
+          else
+            echo "This run should not have been triggered"
+            exit 1
+          fi
+
+          echo "::set-output name=env_type::${env_type}"
+          echo "::set-output name=env_type_cap::${env_type^^}"
+          echo "::set-output name=build_version::${build_version}"
+
+      - name: Store build time
+        id: build_time
+        run: |
+          build_time=`date +%s%N | cut -b1-13`
+          echo "::set-output name=build_time::${build_time}"
+
+      - name: Get all variables
+        run: |
+          echo "Build Time: ${{ steps.build_time.outputs.build_time }}"
+          echo "Build Version: ${{ steps.deploy_info.outputs.build_version }}"
+          echo "Env Type: ${{ steps.deploy_info.outputs.env_typ }}"
+          echo "Env Type Cap: ${{ steps.deploy_info.outputs.env_type_cap }}"
