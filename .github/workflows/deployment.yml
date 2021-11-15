@@ -54,4 +54,4 @@ jobs:
         run: |
           echo "Deployment Environment: ${{ steps.deploy_info.outputs.env_type }}"
           echo "Build Version: ${{ steps.deploy_info.outputs.build_version }}"
-          echo "Build Time: ${{ steps.build_time.outputs.build_time }}
+          echo "Build Time: ${{ steps.build_time.outputs.build_time }}"
