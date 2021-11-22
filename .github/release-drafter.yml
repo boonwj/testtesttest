@@ -1,0 +1,47 @@
+name-template: 'v$RESOLVED_VERSION 🌈'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '🧱 Build'
+    label: 'build'
+  - title: '🏭 CI Pipeline'
+    label: 'ci'
+  - title: '📖 Docs'
+    label: 'docs'
+  - title: '🚀 Features'
+    label: 'feat'
+  - title: '🐛 Bug Fixes'
+    label: 'fix'
+  - title: '🧻 Maintenance'
+    label: 'chore'
+  - title: '💪 Performance/Optimisation'
+    label: 'perf'
+  - title: '🏃 Refactor'
+    label: 'refactor'
+  - title: '🧪 Test'
+    label: 'test'
+  - title: '🏗️ Infra'
+    label: 'infra'
+  - title: '⚠️  Breaking Changes'
+    label: 'BREAKING CHANGE'
+change-template: '* $TITLE (#$NUMBER) @$AUTHOR'
+exclude-labels:
+  - 'skip-changelog'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: |
+  ## Changes
+
+  $CHANGES
+
+  ## Contributors
+
+  $CONTRIBUTORS
