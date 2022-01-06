@@ -1,7 +1,7 @@
 ---
 name: Product Backlog Item
 about: Consolidate and track tasks assocated with a product backlog
-title: ''
+title: Pre-deployment checklist vX.X.X
 labels: pbi
 assignees: ''
 
@@ -26,4 +26,3 @@ assignees: ''
 
 ## Additional Information / References
 <!--- Provide any additional information in this section --->
-
