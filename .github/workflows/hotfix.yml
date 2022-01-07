@@ -1,0 +1,16 @@
+name: Hotfix
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Show variables
+        run: |
+          echo ${{ github.event }}
+
