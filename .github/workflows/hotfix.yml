@@ -5,12 +5,57 @@ on:
     branches:
       - main
       - master
+    types: [closed]
 
 jobs:
   test:
     runs-on: ubuntu-18.04
+    # if: "${{ github.event.pull_request.merged }}"
+    # if: ${{ github.event.label.name == 'label_name' }}
     steps:
-      - name: Show variables
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: Check/create release branch
         run: |
-          echo "${{ toJSON(github) }}"
+          release_version=$(/usr/bin/git tag --sort=-refname --list v* | head -n1 | xargs)
+          echo "${release_version}"
+          release_branch="release--${release_version%.*}.x"
+          echo "${release_branch}"
+          remote_release=$(/usr/bin/git branch --all --list "*${release_branch}" --sort=-refname | head -n 1 | xargs)
+          echo "${remote_release}"
+          if [[ "${remote_release}" ]]; then
+            echo "Release branch: ${remote_release}"
+            git checkout "${release_branch}"
+          else
+            echo "Creating new release branch: ${remote_release}"
+            git checkout -b "${release_branch}" "${release_version}"
+          fi
+
+          echo "${release_version}"
+          echo "${release_branch}"
+          echo "${remote_release}"
+
+      - name: Cherry-pick
+        run: |
+          pr_num="#${{ github.event.number }}"
+
+          merged_commit_info=$(git log --all --grep="#28" --oneline)
+          commit_id="${merged_commit_info:0:7}"
+          commit_message="${merged_commit_info:8}"
+
+          echo "${pr_num}"
+          echo "${commit_id}"
+          echo "${commit_message}"
+          echo "---"
+          echo "$(git log)"
+          echo "---"
+          echo "$(git status)"
+          echo "---"
+          echo "$(git branch)"
+          echo "---"
+
+          git cherry-pick ${commit_id}
+          echo "$(git log)"
 
