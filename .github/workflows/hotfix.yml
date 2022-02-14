@@ -60,7 +60,7 @@ jobs:
           echo "---"
 
           git cherry-pick ${commit_id}
-          echo "$(git log)"
+          echo "$(git show)"
 
           #    - name: pull-request
           #      uses: repo-sync/pull-request@v2
