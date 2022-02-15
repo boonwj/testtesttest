@@ -19,6 +19,7 @@ jobs:
           fetch-depth: '0'
 
       - name: Check/create release branch
+        id: release_branch
         run: |
           release_version=$(/usr/bin/git tag --sort=-refname --list v* | head -n 1 | xargs)
           echo "${release_version}"
@@ -40,6 +41,8 @@ jobs:
           echo "${release_version}"
           echo "${release_branch}"
           echo "${remote_release}"
+          echo "::set-output name=pr_branch::${PR_BRANCH}"
+          echo "::set-output name=release_branch::${release_branch}"
 
       - name: Cherry-pick Commit
         run: |
@@ -59,21 +62,22 @@ jobs:
           echo "$(git branch)"
           echo "---"
 
-          git cherry-pick ${commit_id}
+          git cherry-pick "${commit_id}"
+          git push origin "${{ steps.release_branch.outputs.pr_branch }}"
           echo "$(git show)"
 
-          #    - name: pull-request
-          #      uses: repo-sync/pull-request@v2
-          #      with:
-          #        source_branch: ""                                 # If blank, default: triggered branch
-          #        destination_branch: "master"                      # If blank, default: master
-          #        pr_title: "Pulling ${{ github.ref }} into master" # Title of pull request
-          #        pr_body: ":crown: *An automated PR*"              # Full markdown support, requires pr_title to be set
-          #        pr_template: ".github/PULL_REQUEST_TEMPLATE.md"   # Path to pull request template, requires pr_title to be set, excludes pr_body
-          #        pr_reviewer: "wei,worker"                         # Comma-separated list (no spaces)
-          #        pr_assignee: "wei,worker"                         # Comma-separated list (no spaces)
-          #        pr_label: "auto-pr"                               # Comma-separated list (no spaces)
-          #        pr_milestone: "Milestone 1"                       # Milestone name
-          #        pr_draft: true                                    # Creates pull request as draft
-          #        pr_allow_empty: true                              # Creates pull request even if there are no changes
-          #        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: pull-request
+      uses: repo-sync/pull-request@v2
+      with:
+        source_branch: "${{ steps.release_branch.outputs.pr_branch }}"  # If blank, default: triggered branch
+        destination_branch: "${{ steps.release_branch.outputs.release_branch }}"                      # If blank, default: master
+        pr_title: "Hotfix #${{ github.event.pull_request.number }} into ${{ steps.release_branch.outputs.release_branch }}" # Title of pull request
+        pr_body: ":crown: *An automated PR*"              # Full markdown support, requires pr_title to be set
+        pr_template: ".github/PULL_REQUEST_TEMPLATE.md"   # Path to pull request template, requires pr_title to be set, excludes pr_body
+        # pr_reviewer: "wei,worker"                         # Comma-separated list (no spaces)
+        # pr_assignee: "wei,worker"                         # Comma-separated list (no spaces)
+        # pr_label: "auto-pr"                               # Comma-separated list (no spaces)
+        # pr_milestone: "Milestone 1"                       # Milestone name
+        pr_draft: true                                    # Creates pull request as draft
+        pr_allow_empty: true                              # Creates pull request even if there are no changes
+        github_token: ${{ secrets.GITHUB_TOKEN }}
