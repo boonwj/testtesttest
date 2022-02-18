@@ -2,10 +2,9 @@
 
 on: [push]
 
-name: AzureCLISample
+name: Rotate Keys
 
 jobs:
-
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
@@ -15,10 +14,14 @@ jobs:
       with:
         creds: ${{ secrets.DEV_AZURE_CREDENTIALS }}
 
-    - name: Azure CLI script
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Rotate storage account keys
       uses: azure/CLI@v1
       with:
         azcliversion: 2.30.0
         inlineScript: |
-          az account show
-          az storage -h
+          chmod +x $GITHUB_WORKSPACE/script/rotate_keys.sh
+          $GITHUB_WORKSPACE/script/rotate_keys.sh
+
