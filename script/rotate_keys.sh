@@ -15,7 +15,7 @@ function rotate_keys_w_kv {
 
     echo "- Refreshing and updating secret with primary key"
     key1=$(az storage account keys renew --account-name "${sst_name}" --resource-group "${sst_resource_group}" --key primary --query "[?keyName=='key1'].value" -o tsv)
-    az keyvault secret set --name "${kv_secret_name}" --vault-name "${kv_name}" --description "Access key for ${sst_name}" --value "${key1}"
+    az keyvault secret set --name "${kv_secret_name}" --vault-name "${kv_name}" --description "Access key for ${sst_name}" --value "${key1}" -o none
 }
 
 function rotate_keys {
