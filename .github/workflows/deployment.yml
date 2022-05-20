@@ -12,6 +12,10 @@ on:
         description: 'Deploy to stg or prd'
         required: true
         default: 'stg'
+        type: choice
+        options:
+          - stg
+          - prd
       build_version:
         description: 'Set build version. Defaults to git commit id if empty.'
         required: false
