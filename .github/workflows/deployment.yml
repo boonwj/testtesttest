@@ -16,6 +16,7 @@ on:
         options:
           - stg
           - prd
+          - dev
       build_version:
         description: 'Set build version. Defaults to git commit id if empty.'
         required: false
@@ -59,3 +60,7 @@ jobs:
           echo "Deployment Environment: ${{ steps.deploy_info.outputs.env_type }}"
           echo "Build Version: ${{ steps.deploy_info.outputs.build_version }}"
           echo "Build Time: ${{ steps.build_time.outputs.build_time }}"
+      - name: Only prd and stg will run this
+        if: ${{ github.event.inputs.env_type == 'prd' || github.event.inputs.env_type == 'stg' }}
+        run: |
+          echo "I am prd or stg"
