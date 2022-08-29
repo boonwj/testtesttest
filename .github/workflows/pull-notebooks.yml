@@ -21,7 +21,7 @@ jobs:
         run: |
           REPO_PATH="/Repos/Staging/tcs-core"  # This is case sensitive
           REPO_ID=$(curl --silent --request GET --header "Authorization: Bearer ${{ secrets.STG_DATABRICKS_BEARER }}" --url "https://${{ secrets.STG_DATABRICKS_INSTANCE }}/api/2.0/repos?path_prefix=${REPO_PATH}" | jq ".repos[0].id")
-          STATUS=$(curl --silent --output /dev/stderr --write-out "%{http_code}" --request PATCH --header 'Authorization: Bearer ${{ secrets.STG_DATABRICKS_BEARER }}' --data '{"branch": "master"}' --url 'https://${{ secrets.STG_DATABRICKS_INSTANCE }}/api/2.0/repos/${REPO_ID}')
+          STATUS=$(curl --silent --output /dev/stderr --write-out "%{http_code}" --request PATCH --header "Authorization: Bearer ${{ secrets.STG_DATABRICKS_BEARER }}" --data "{"branch": "master"}" --url "https://${{ secrets.STG_DATABRICKS_INSTANCE }}/api/2.0/repos/${REPO_ID}")
           if [[ ${STATUS} -ne 200 ]]; then
             echo "REPO_ID: ${REPO_ID}"
             echo "STATUS: ${STATUS}"
