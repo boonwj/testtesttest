@@ -1,0 +1,16 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: bash
+        run: |
+          date --version
+          start_date=$(date +%Y-%m-%d'T'00:00:00'Z')
+          exp_date=$(date +%Y-%m-%d'T'00:00:00'Z' -d'1 year')
+          echo $start_date
+          echo $exp_date
