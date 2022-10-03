@@ -14,3 +14,13 @@ jobs:
           exp_date=$(date +%Y-%m-%d'T'00:00:00'Z' -d'1 year')
           echo $start_date
           echo $exp_date
+      - name: Rotate prd storage account keys
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            date --version
+            start_date=$(date +%Y-%m-%d'T'00:00:00'Z')
+            exp_date=$(date +%Y-%m-%d'T'00:00:00'Z' -d'1 year')
+            echo $start_date
+            echo $exp_date
