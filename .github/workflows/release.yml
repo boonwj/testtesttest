@@ -1,4 +1,4 @@
-name: Deploy Test
+name: Deployment
 
 on:
   release:
@@ -56,3 +56,9 @@ jobs:
           echo "Build Version: ${{ steps.deploy_info.outputs.build_version }}"
           echo "Env Type: ${{ steps.deploy_info.outputs.env_type }}"
           echo "Env Type Cap: ${{ steps.deploy_info.outputs.env_type_cap }}"
+          
+      - name: Restart Function App
+        if: ${{ steps.deploy_info.outputs.env_type == 'prd' || steps.deploy_info.outputs.env_type == 'stg' }}
+        run: |
+          echo "This step will run"
+          echo "${{ steps.deploy_info.outputs.env_type }}"
