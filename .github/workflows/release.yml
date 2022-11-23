@@ -22,7 +22,7 @@ jobs:
       - name: Get deployment environment
         id: deploy_info
         run: |
-          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
             env_type="prd"
             build_version="${GITHUB_REF#refs/tags/v}"
           elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
