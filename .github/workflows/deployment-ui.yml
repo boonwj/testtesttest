@@ -75,6 +75,6 @@ jobs:
           echo "docker_tag: ${{ steps.check_arg.outputs.docker_tag }}"
           echo "is_maintenance: ${{ steps.check_arg.outputs.is_maintenance }}"
           echo "build_time: ${{ steps.build_time.outputs.build_time}}"
-          echo '{"version":"${{ github.event.inputs.env_type == ''prd'' && github.ref_name || github.sha }}", "env_type": "${{ github.event.inputs.env_type }}"}'
+          echo "${{ github.event.inputs.env_type == ''prd'' && github.ref_name || github.sha }}"
 
 
