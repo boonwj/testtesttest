@@ -59,16 +59,16 @@ jobs:
             exit 1
           fi
 
-          echo "::set-output name=env_type::${env_type}"
-          echo "::set-output name=env_type_cap::${env_type^^}"
-          echo "::set-output name=docker_tag::${docker_tag}"
-          echo "::set-output name=is_maintenance::${is_maintenance}"
+          echo "env_type=${env_type}" >> $GITHUB_OUTPUT
+          echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
+          echo "docker_tag=${docker_tag}" >> $GITHUB_OUTPUT
+          echo "is_maintenance=${is_maintenance}" >> $GITHUB_OUTPUT
 
       - name: Store build time
         id: build_time
         run: |
           build_time=`date +%s%N | cut -b1-13`
-          echo "::set-output name=build_time::${build_time}"
+          echo "build_time=${build_time}" >> $GITHUB_OUTPUT
 
       - name: Variables in run
         run: |
