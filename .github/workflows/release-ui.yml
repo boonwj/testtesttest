@@ -1,0 +1,79 @@
+name: Deployment (UI)
+
+# This is mock of the ui deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      env_type:
+        description: 'env_type: dev, stg, or prd'
+        required: true
+        default: 'stg'
+        type: choice
+        options:
+          - prd
+          - stg
+          - dev
+      is_maintenance:
+        description: 'is_maintenance: true or false'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      maintenance_end_time:
+        description: 'maintenance_end_time: epoch time in ms'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check argument
+        id: check_arg
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
+            env_type="prd"
+            is_maintenance="false"
+            docker_tag="prd"
+          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            if ${{ github.event.inputs.env_type != 'dev' }} && ${{ github.event.inputs.env_type != 'stg' }} && ${{ github.event.inputs.env_type != 'prd' }}; then
+              echo 'Please Enter dev/stg/prd for env_type.'
+              exit 1
+            fi
+            if ${{ github.event.inputs.is_maintenance != 'true' }} && ${{ github.event.inputs.is_maintenance != 'false' }}; then
+              echo 'Please Enter true/false for is_maintenance.'
+              exit 1
+            fi
+            is_maintenance=${{ github.event.inputs.is_maintenance }}
+            env_type=${{ github.event.inputs.env_type }}
+            docker_tag=${{ github.event.inputs.env_type }}
+            if ${{ github.event.inputs.is_maintenance == 'true' }}; then
+              docker_tag+="-maintenance"
+            fi
+          else
+            echo "This run should not have been triggered"
+            exit 1
+          fi
+
+          echo "::set-output name=env_type::${env_type}"
+          echo "::set-output name=env_type_cap::${env_type^^}"
+          echo "::set-output name=docker_tag::${docker_tag}"
+          echo "::set-output name=is_maintenance::${is_maintenance}"
+
+      - name: Store build time
+        id: build_time
+        run: |
+          build_time=`date +%s%N | cut -b1-13`
+          echo "::set-output name=build_time::${build_time}"
+
+      - name: Variables in run
+        run: |
+          echo "env_type: ${{ steps.check_arg.outputs.env_type }}"
+          echo "env_type_cap: ${{ steps.check_arg.outputs.env_type_cap }}"
+          echo "docker_tag: ${{ steps.check_arg.outputs.docker_tag }}"
+          echo "is_maintenance: ${{ steps.check_arg.outputs.is_maintenance }}"
+          echo "build_time: ${{ steps.build_time.outputs.build_time}}"
+
+
