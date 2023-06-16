@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/labeler@v4
         with:
-          - sync-labels: true
+          sync-labels: true
   run_integration_test:
     if: github.event.label.name == 'auto/need-int-test' && github.event.review.state == 'approved'
     runs-on: ubuntu-latest
