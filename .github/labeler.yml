@@ -1,2 +1,2 @@
-'auto/need-int-test':
+'auto/need-integration-test':
   - any: ['api/backend/**/*.py', 'api/backend/poetry.lock', 'api/backend/pyproject.toml']
