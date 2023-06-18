@@ -2,6 +2,3 @@
   - 'api/backend/**/*.py'
   - 'api/backend/poetry.lock'
   - 'api/backend/pyproject.toml'
-
-'auto/repo':
-  - '*'

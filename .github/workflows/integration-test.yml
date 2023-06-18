@@ -4,10 +4,6 @@ on:
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened, unlabeled]
-    paths:
-      - 'api/backend/**/*.py'
-      - 'api/backend/poetry.lock'
-      - 'api/backend/pyproject.toml'
   pull_request_review:
     types: [submitted]
 
@@ -22,7 +18,7 @@ jobs:
         with:
           sync-labels: true
   run_integration_test:
-    if: github.event.label.name == 'auto/need-int-test' && github.event.review.state == 'approved'
+    if: github.event.label.name == 'auto/need-integration-test' && github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
       - run: echo "This PR was approved and is of the correct label. I will run the integraiton test"
