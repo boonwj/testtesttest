@@ -1,4 +1,0 @@
-'auto/need-integration-test':
-  - 'api/backend/**/*.py'
-  - 'api/backend/poetry.lock'
-  - 'api/backend/pyproject.toml'
