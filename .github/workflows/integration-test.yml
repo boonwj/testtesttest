@@ -8,10 +8,11 @@ on:
 jobs:
   run_integration_test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+    if: github.event.review.state == 'approved' || github.event_name == 'workflow_dispatch'
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: tj-actions/changed-files@v36
         id: changed-files
         if: github.event.review.state == 'approved'
