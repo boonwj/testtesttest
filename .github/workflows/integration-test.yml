@@ -21,5 +21,5 @@ jobs:
             'api/backend/**/*.py'
             'api/backend/poetry.lock'
             'api/backend/pyproject.toml'
-      - if: (steps.changed-files.outputs.any_changed == 'true' && contains(github.event.pull_request.labels.*.name, 'auto/need-integration-test') && github.event.review.state == 'approved') || github.event_name == 'workflow_dispatch'
+      - if: (steps.changed-files.outputs.any_changed == 'true' && github.event.review.state == 'approved') || github.event_name == 'workflow_dispatch'
         run: echo "This PR was approved and is of the correct label. OR it is manually triggered. I will run the integration test"
