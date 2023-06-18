@@ -29,4 +29,4 @@ jobs:
     runs-on: ubuntu-latest
     needs: to_run_test
     steps:
-      run: echo "Run integration test"
+      - run: echo "Run integration test"
