@@ -36,5 +36,5 @@ jobs:
       - run: |
           FAKE_KEY=$(echo "super-fake-key-239919401")
           echo "::add_mask::$FAKE_KEY"
-          echo FAKE_KEY=$FAKE_KEY >> $GITHUB_ENV
-      - run: echo "Run integration test with key: ${{ env.FAKE_KEY }}"
+          echo "FAKE_KEY=$FAKE_KEY" >> $GITHUB_ENV
+      - run: echo "Run integration test with key - ${{ env.FAKE_KEY }}"
