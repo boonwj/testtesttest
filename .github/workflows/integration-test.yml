@@ -24,7 +24,7 @@ jobs:
             api/backend/**/*.py
             api/backend/poetry.lock
             api/backend/pyproject.toml
-      - if: (steps.changed-files.outputs.any_changed == 'true' && github.event.review.state == 'approved') || github.event_name == 'workflow_dispatch'
+      - if: (steps.changed-files.outputs.any_changed == 'true' && github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'main') || github.event_name == 'workflow_dispatch'
         id: result
         run: echo "to_test=true" >> $GITHUB_OUTPUT
 
