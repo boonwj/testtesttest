@@ -57,6 +57,19 @@ jobs:
           echo "Env Type: ${{ steps.deploy_info.outputs.env_type }}"
           echo "Env Type Cap: ${{ steps.deploy_info.outputs.env_type_cap }}"
 
+      - name: Approval required for deployment to PRD
+        if: ${{ steps.deploy_info.outputs.env_type == 'prd' }}
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: boonwj,bnew11245
+          minimum-approvals: 1
+          issue-title: "[For Approval] Deployment to Prd"
+          issue-body: "Please approve or deny the deployment of ${{ steps.deploy_info.outputs.build_version }}"
+          exclude-workflow-initiator-as-approver: true
+          additional-approved-words: 'yes,approved,approve'
+          additional-denied-words: 'no,denied,deny'
+
       - name: Restart Function App
         if: ${{ steps.deploy_info.outputs.env_type == 'prd' || steps.deploy_info.outputs.env_type == 'stg' }}
         run: |
