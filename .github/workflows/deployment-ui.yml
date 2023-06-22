@@ -53,6 +53,7 @@ jobs:
             exit 1
           fi
 
+          echo "deploy_target=TCS-UI" >> $GITHUB_OUTPUT
           echo "env_type=${env_type}" >> $GITHUB_OUTPUT
           echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
           echo "docker_tag=${docker_tag}" >> $GITHUB_OUTPUT
@@ -63,6 +64,27 @@ jobs:
         run: |
           build_time=`date +%s%N | cut -b1-13`
           echo "build_time=${build_time}" >> $GITHUB_OUTPUT
+
+      - name: Approval for PRD deployments
+        if: ${{ github.event.inputs.env_type == 'prd' }}
+        uses: trstringer/manual-approval@v1
+        timeout-minutes: 15
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: boonwj,bnew11245
+          minimum-approvals: 1
+          issue-title: >-
+            Deploy ${{ steps.check_arg.outputs.env_type_cap }} to ${{ github.ref_name }}
+            ${{ steps.check_arg.outputs.deploy_target }}
+          issue-body: |
+            Workflow Name: ${{ github.workflow }}
+            Triggered by: ${{ github.triggering_actor }}
+            Deploying: ${{ steps.check_arg.outputs.deploy_target }}
+            Reference: ${{ github.ref_type }} ${{ github.ref_name }}
+            Environment: ${{ steps.check_arg.outputs.env_type_cap }}
+          exclude-workflow-initiator-as-approver: true
+          additional-approved-words: ''
+          additional-denied-words: ''
 
       - name: Variables in run
         run: |
