@@ -3,8 +3,6 @@ name: Deployment (UI)
 # This is mock of the ui deployment
 
 on:
-  release:
-    types: [released]
   workflow_dispatch:
     inputs:
       env_type:
@@ -16,6 +14,7 @@ on:
           - prd
           - stg
           - dev
+          - sandbox
       is_maintenance:
         description: 'is_maintenance: true or false'
         required: true
@@ -28,31 +27,22 @@ on:
         description: 'maintenance_end_time: epoch time in ms'
 
 jobs:
-  build:
+  context:
     runs-on: ubuntu-latest
-
     steps:
       - name: Show All Context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "${GITHUB_CONTEXT}"
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
       - name: Check argument
         id: check_arg
         run: |
-          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
-            env_type="prd"
-            is_maintenance="false"
-            docker_tag="prd"
-          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
-            if ${{ github.event.inputs.env_type != 'dev' }} && ${{ github.event.inputs.env_type != 'stg' }} && ${{ github.event.inputs.env_type != 'prd' }}; then
-              echo 'Please Enter dev/stg/prd for env_type.'
-              exit 1
-            fi
-            if ${{ github.event.inputs.is_maintenance != 'true' }} && ${{ github.event.inputs.is_maintenance != 'false' }}; then
-              echo 'Please Enter true/false for is_maintenance.'
-              exit 1
-            fi
-            is_maintenance=${{ github.event.inputs.is_maintenance }}
+          is_maintenance=${{ github.event.inputs.is_maintenance }}
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
             env_type=${{ github.event.inputs.env_type }}
             docker_tag=${{ github.event.inputs.env_type }}
             if ${{ github.event.inputs.is_maintenance == 'true' }}; then
@@ -63,6 +53,7 @@ jobs:
             exit 1
           fi
 
+          echo "deploy_target=TCS-UI" >> $GITHUB_OUTPUT
           echo "env_type=${env_type}" >> $GITHUB_OUTPUT
           echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
           echo "docker_tag=${docker_tag}" >> $GITHUB_OUTPUT
@@ -73,6 +64,27 @@ jobs:
         run: |
           build_time=`date +%s%N | cut -b1-13`
           echo "build_time=${build_time}" >> $GITHUB_OUTPUT
+
+      - name: Approval for PRD deployments
+        if: ${{ github.event.inputs.env_type == 'prd' }}
+        uses: trstringer/manual-approval@v1
+        timeout-minutes: 15
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: boonwj,bnew11245
+          minimum-approvals: 1
+          issue-title: >-
+            Deploy ${{ steps.check_arg.outputs.env_type_cap }} to ${{ github.ref_name }}
+            ${{ steps.check_arg.outputs.deploy_target }}
+          issue-body: |
+            Workflow Name: ${{ github.workflow }}
+            Triggered by: ${{ github.triggering_actor }}
+            Deploying: ${{ steps.check_arg.outputs.deploy_target }}
+            Reference: ${{ github.ref_type }} ${{ github.ref_name }}
+            Environment: ${{ steps.check_arg.outputs.env_type_cap }}
+          exclude-workflow-initiator-as-approver: true
+          additional-approved-words: ''
+          additional-denied-words: ''
 
       - name: Variables in run
         run: |
