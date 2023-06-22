@@ -41,6 +41,7 @@ jobs:
       - name: Check argument
         id: check_arg
         run: |
+          is_maintenance=${{ github.event.inputs.is_maintenance }}
           if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
             env_type=${{ github.event.inputs.env_type }}
             docker_tag=${{ github.event.inputs.env_type }}
@@ -55,7 +56,7 @@ jobs:
           echo "env_type=${env_type}" >> $GITHUB_OUTPUT
           echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
           echo "docker_tag=${docker_tag}" >> $GITHUB_OUTPUT
-          echo "is_maintenance=${{ github.event.inputs.is_maintenance }}" >> $GITHUB_OUTPUT
+          echo "is_maintenance=${is_maintenance}" >> $GITHUB_OUTPUT
 
       - name: Store build time
         id: build_time
