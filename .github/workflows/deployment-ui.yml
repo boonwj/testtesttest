@@ -29,7 +29,7 @@ on:
 jobs:
   context:
     runs-on: ubuntu-latest
-    step:
+    steps:
       - name: Show All Context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
