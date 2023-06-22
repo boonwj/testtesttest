@@ -32,6 +32,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Show All Context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "${GITHUB_CONTEXT}"
       - name: Check argument
         id: check_arg
         run: |
