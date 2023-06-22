@@ -76,7 +76,7 @@ jobs:
           issue-title: >-
             Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }}
             ${{ steps.check_arg.outputs.deploy_target }}
-          issue-body: |
+          issue-body: >
             Action | By | Environment | Ref Type | Ref Name
 
             --- | --- | --- | --- | ---
@@ -86,6 +86,7 @@ jobs:
             ${{ steps.check_arg.outputs.env_type_cap }} |
             ${{ github.ref_type }} |
             ${{ github.ref_name }}
+          exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
           additional-denied-words: ''
 
