@@ -41,16 +41,7 @@ jobs:
       - name: Check argument
         id: check_arg
         run: |
-          is_maintenance=${{ github.event.inputs.is_maintenance }}
           if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
-            if ${{ github.event.inputs.env_type != 'dev' }} && ${{ github.event.inputs.env_type != 'stg' }} && ${{ github.event.inputs.env_type != 'prd' }} && ${{ github.event.inputs.env_type != 'sandbox' }}; then
-              echo 'Please Enter dev/stg/prd/sandbox for env_type.'
-              exit 1
-            fi
-            if ${{ github.event.inputs.is_maintenance != 'true' }} && ${{ github.event.inputs.is_maintenance != 'false' }}; then
-              echo 'Please Enter true/false for is_maintenance.'
-              exit 1
-            fi
             env_type=${{ github.event.inputs.env_type }}
             docker_tag=${{ github.event.inputs.env_type }}
             if ${{ github.event.inputs.is_maintenance == 'true' }}; then
