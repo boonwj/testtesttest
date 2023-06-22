@@ -55,7 +55,7 @@ jobs:
           echo "env_type=${env_type}" >> $GITHUB_OUTPUT
           echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
           echo "docker_tag=${docker_tag}" >> $GITHUB_OUTPUT
-          echo "is_maintenance=${is_maintenance}" >> $GITHUB_OUTPUT
+          echo "is_maintenance=${{ github.event.inputs.is_maintenance }}" >> $GITHUB_OUTPUT
 
       - name: Store build time
         id: build_time
