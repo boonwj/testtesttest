@@ -74,15 +74,18 @@ jobs:
           approvers: boonwj,bnew11245
           minimum-approvals: 1
           issue-title: >-
-            Deploy ${{ steps.check_arg.outputs.env_type_cap }} to ${{ github.ref_name }}
+            Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }}
             ${{ steps.check_arg.outputs.deploy_target }}
           issue-body: |
-            Workflow Name: ${{ github.workflow }}
-            Triggered by: ${{ github.triggering_actor }}
-            Deploying: ${{ steps.check_arg.outputs.deploy_target }}
-            Reference: ${{ github.ref_type }} ${{ github.ref_name }}
-            Environment: ${{ steps.check_arg.outputs.env_type_cap }}
-          exclude-workflow-initiator-as-approver: true
+            Action | By | Environment | Ref Type | Ref Name
+
+            --- | --- | --- | --- | ---
+
+            ${{ github.workflow }} |
+            @${{ github.triggering_actor }} |
+            ${{ steps.check_arg.outputs.env_type_cap }} |
+            ${{ github.ref_type }} |
+            ${{ github.ref_name }}
           additional-approved-words: ''
           additional-denied-words: ''
 
