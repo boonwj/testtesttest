@@ -1,4 +1,5 @@
 name: Deployment (ui)
+run-name: Deploy to ${{ inputs.env_type }}${{ inputs.is_maintenance && '-maintenance' || '' }} by @${{ github.actor }}
 
 # This is mock of the ui deployment
 
