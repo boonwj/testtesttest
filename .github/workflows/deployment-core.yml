@@ -16,10 +16,6 @@ on:
           - stg
           - dev
           - sandbox
-      build_version:
-        description: 'build_version: Defaults to git commit id or tag value'
-        required: false
-        default: ''
 
 jobs:
   build:
@@ -30,12 +26,11 @@ jobs:
         id: deploy_info
         run: |
           env_type="${{ github.event.inputs.env_type }}"
-          build_version="${{ github.event.inputs.build_version }}"
 
-          if [[ "${build_version}" == "" && ${{ github.ref_type }} == "tag" ]]; then
+          if [[ ${{ github.ref_type }} == "tag" ]]; then
             build_version="${GITHUB_REF#refs/tags/v}"
-          elif [[ "${build_version}" == "" ]]; then
-            build_version="${GITHUB_SHA::8}"
+          else
+            build_version="0.0.0-${GITHUB_SHA::8}"
           fi
 
           echo "::set-output name=env_type::${env_type}"
