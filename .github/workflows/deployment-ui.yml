@@ -1,4 +1,4 @@
-name: Deployment (UI)
+name: Deployment (ui)
 
 # This is mock of the ui deployment
 
@@ -27,36 +27,25 @@ on:
         description: 'maintenance_end_time: epoch time in ms'
 
 jobs:
-  context:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Show All Context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "${GITHUB_CONTEXT}"
-
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check argument
         id: check_arg
         run: |
           is_maintenance=${{ github.event.inputs.is_maintenance }}
-          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
-            env_type=${{ github.event.inputs.env_type }}
-            docker_tag=${{ github.event.inputs.env_type }}
-            if ${{ github.event.inputs.is_maintenance == 'true' }}; then
-              docker_tag+="-maintenance"
-            fi
-          else
-            echo "This run should not have been triggered"
-            exit 1
+          env_type=${{ github.event.inputs.env_type }}
+          docker_tag=${{ github.event.inputs.env_type }}
+
+          if ${{ github.event.inputs.is_maintenance == 'true' }}; then
+            docker_tag+="-maintenance"
           fi
 
-          echo "deploy_target=TCS-UI" >> $GITHUB_OUTPUT
           echo "env_type=${env_type}" >> $GITHUB_OUTPUT
           echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
           echo "docker_tag=${docker_tag}" >> $GITHUB_OUTPUT
+          echo "docker_tag_cap=${docker_tag^^}" >> $GITHUB_OUTPUT
           echo "is_maintenance=${is_maintenance}" >> $GITHUB_OUTPUT
 
       - name: Store build time
@@ -68,14 +57,13 @@ jobs:
       - name: Approval for PRD deployments
         if: ${{ github.event.inputs.env_type == 'prd' }}
         uses: trstringer/manual-approval@v1
-        timeout-minutes: 15
+        timeout-minutes: 10
         with:
           secret: ${{ github.TOKEN }}
           approvers: boonwj,bnew11245
           minimum-approvals: 1
           issue-title: >-
-            Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }}
-            ${{ steps.check_arg.outputs.deploy_target }}
+            Deploy UI - ${{ step.check_arg.outputs.docker_tag_cap }}
           issue-body: >
             Action | By | Environment | Ref Type | Ref Name
 
@@ -90,6 +78,10 @@ jobs:
           additional-approved-words: ''
           additional-denied-words: ''
 
+      - name: Deployment
+        run: |
+          echo "Deployment will proceed"
+
       - name: Variables in run
         run: |
           echo "env_type: ${{ steps.check_arg.outputs.env_type }}"
@@ -100,3 +92,10 @@ jobs:
           echo "maintenance_end_time: ${{github.event.inputs.maintenance_end_time }}"
           echo "version: ${{ steps.check_arg.outputs.env_type == 'prd' && github.ref_name || github.sha }}"
 
+  context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show All Context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "${GITHUB_CONTEXT}"
