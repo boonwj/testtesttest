@@ -1,4 +1,4 @@
-name: Deployment (Core)
+name: Deployment (core)
 run-name: Deploy to ${{ inputs.env_type }} by @${{ github.actor }}
 
 # This is a dummy deployment for tcs-core
@@ -32,7 +32,7 @@ jobs:
           env_type="${{ github.event.inputs.env_type }}"
           build_version="${{ github.event.inputs.build_version }}"
 
-          if [[ "${build_version}" == "" && ${{ github.ref_type == "tag" }} ]]; then
+          if [[ "${build_version}" == "" && ${{ github.ref_type }} == "tag" ]]; then
             build_version="${GITHUB_REF#refs/tags/v}"
           elif [[ "${build_version}" == "" ]]; then
             build_version="${GITHUB_SHA::8}"
