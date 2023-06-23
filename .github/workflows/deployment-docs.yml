@@ -1,5 +1,5 @@
 name: Deployment (docs)
-run-name: Deploy to ${{ inputs.env_type }} by @${{ github.actor }}
+run-name: Deploy ${{ github.ref_name }} to ${{ inputs.env_type }} by @${{ github.actor }}
 
 # This is mock of the ui deployment
 
