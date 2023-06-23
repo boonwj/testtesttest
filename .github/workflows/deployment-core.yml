@@ -33,15 +33,15 @@ jobs:
             build_version="0.0.0-${GITHUB_SHA::8}"
           fi
 
-          echo "::set-output name=env_type::${env_type}"
-          echo "::set-output name=env_type_cap::${env_type^^}"
-          echo "::set-output name=build_version::${build_version}"
+          echo "env_type=${env_type}" >> $GITHUB_OUTPUT
+          echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
+          echo "build_version=${build_version}" >> $GITHUB_OUTPUT
 
       - name: Store build time
         id: build_time
         run: |
           build_time=`date +%s%N | cut -b1-13`
-          echo "::set-output name=build_time::${build_time}"
+          echo "build_time=${build_time}" >> $GITHUB_OUTPUT
 
       - name: Get all variables
         run: |
