@@ -1,16 +1,23 @@
 name: Deployment (Core)
+run-name: Deploy to ${{ inputs.env_type }} by @${{ github.actor }}
+
+# This is a dummy deployment for tcs-core
 
 on:
-  release:
-    types: [released]
   workflow_dispatch:
     inputs:
       env_type:
-        description: 'Deploy to stg or prd'
+        description: 'Deploy to prd, stg, dev or sandbox'
         required: true
         default: 'stg'
+        type: choice
+        options:
+          - prd
+          - stg
+          - dev
+          - sandbox
       build_version:
-        description: 'Set build version. Defaults to git commit id if empty.'
+        description: 'Set build version. Defaults to git commit id or tag value if empty.'
         required: false
         default: ''
 
@@ -22,22 +29,13 @@ jobs:
       - name: Get deployment environment
         id: deploy_info
         run: |
-          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
-            env_type="prd"
+          env_type="${{ github.event.inputs.env_type }}"
+          build_version="${{ github.event.inputs.build_version }}"
+
+          if [[ "${build_version}" == "" && ${{ github.ref_type == "tag" }} ]]; then
             build_version="${GITHUB_REF#refs/tags/v}"
-          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
-            env_type="${{ github.event.inputs.env_type }}"
-            if [[ "${env_type}" != "stg" && "${env_type}" != "prd" ]]; then
-              echo "Please enter stg/prd for env_type."
-              exit 1
-            fi
-            build_version="${{ github.event.inputs.build_version }}"
-            if [[ "${build_version}" == "" ]]; then
-              build_version="${GITHUB_SHA::8}"
-            fi
-          else
-            echo "This run should not have been triggered"
-            exit 1
+          elif [[ "${build_version}" == "" ]]; then
+            build_version="${GITHUB_SHA::8}"
           fi
 
           echo "::set-output name=env_type::${env_type}"
@@ -57,22 +55,31 @@ jobs:
           echo "Env Type: ${{ steps.deploy_info.outputs.env_type }}"
           echo "Env Type Cap: ${{ steps.deploy_info.outputs.env_type_cap }}"
 
-      - name: Approval required for PRD deployments
-        if: ${{ steps.deploy_info.outputs.env_type == 'prd' }}
+      - name: Approval for PRD deployments
+        if: ${{ github.event.inputs.env_type == 'prd' }}
         uses: trstringer/manual-approval@v1
-        timeout-minutes: 15
+        timeout-minutes: 10
         with:
           secret: ${{ github.TOKEN }}
           approvers: boonwj,bnew11245
           minimum-approvals: 1
-          issue-title: "Deploy ${{ steps.deploy_info.outputs.build_version }} to PRD"
-          issue-body: "Please approve or deny the deployment of ${{ steps.deploy_info.outputs.build_version }} to PRD"
+          issue-title: >-
+            Deploy Core - ${{ github.ref_name }}
+          issue-body: >
+            Action | By | Environment | Ref Type | Ref Name
+
+            --- | --- | --- | --- | ---
+
+            ${{ github.workflow }} |
+            @${{ github.triggering_actor }} |
+            ${{ steps.check_arg.outputs.env_type_cap }} |
+            ${{ github.ref_type }} |
+            ${{ github.ref_name }}
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
           additional-denied-words: ''
 
-      - name: Restart Function App
-        if: ${{ steps.deploy_info.outputs.env_type == 'prd' || steps.deploy_info.outputs.env_type == 'stg' }}
+      - name: Deployment
         run: |
-          echo "This step will run"
+          echo "Deployment will continue"
           echo "${{ steps.deploy_info.outputs.env_type }}"
