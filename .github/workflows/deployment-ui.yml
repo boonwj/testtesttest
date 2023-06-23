@@ -64,7 +64,7 @@ jobs:
           approvers: boonwj,bnew11245
           minimum-approvals: 1
           issue-title: >-
-            Deploy UI - ${{ step.check_arg.outputs.docker_tag_cap }}
+            Deploy UI - ${{ steps.check_arg.outputs.docker_tag_cap }}
           issue-body: >
             Action | By | Environment | Ref Type | Ref Name
 
