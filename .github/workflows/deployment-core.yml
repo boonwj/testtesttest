@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check argument
-        id: check_arg
+      - name: Get deployment environment
+        id: deploy_info
         run: |
           env_type="${{ github.event.inputs.env_type }}"
           build_version="${{ github.event.inputs.build_version }}"
@@ -72,7 +72,7 @@ jobs:
 
             ${{ github.workflow }} |
             @${{ github.triggering_actor }} |
-            ${{ steps.check_arg.outputs.env_type_cap }} |
+            ${{ steps.deploy_info.outputs.env_type_cap }} |
             ${{ github.ref_type }} |
             ${{ github.ref_name }}
           exclude-workflow-initiator-as-approver: true
@@ -82,4 +82,4 @@ jobs:
       - name: Deployment
         run: |
           echo "Deployment will continue"
-          echo "${{ steps.check_arg.outputs.env_type }}"
+          echo "${{ steps.deploy_info.outputs.env_type }}"
