@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       env_type:
-        description: 'Deploy to prd, stg, dev or sandbox'
+        description: 'env_type: target env to deploy to'
         required: true
         default: 'stg'
         type: choice
@@ -17,7 +17,7 @@ on:
           - dev
           - sandbox
       build_version:
-        description: 'Set build version. Defaults to git commit id or tag value if empty.'
+        description: 'build_version: Defaults to git commit id or tag value'
         required: false
         default: ''
 
@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get deployment environment
-        id: deploy_info
+      - name: Check argument
+        id: check_arg
         run: |
           env_type="${{ github.event.inputs.env_type }}"
           build_version="${{ github.event.inputs.build_version }}"
@@ -82,4 +82,4 @@ jobs:
       - name: Deployment
         run: |
           echo "Deployment will continue"
-          echo "${{ steps.deploy_info.outputs.env_type }}"
+          echo "${{ steps.check_arg.outputs.env_type }}"
