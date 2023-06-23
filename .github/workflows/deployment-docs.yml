@@ -1,0 +1,77 @@
+name: Deployment (docs)
+
+# This is mock of the ui deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      env_type:
+        description: 'env_type: target env to deploy to'
+        required: true
+        default: 'stg'
+        type: choice
+        options:
+          - prd
+          - stg
+          - dev
+          - sandbox
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check argument
+        id: check_arg
+        run: |
+          env_type=${{ github.event.inputs.env_type }}
+
+          echo "env_type=${env_type}" >> $GITHUB_OUTPUT
+          echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
+
+      - name: Store build time
+        id: build_time
+        run: |
+          build_time=`date +%s%N | cut -b1-13`
+          echo "build_time=${build_time}" >> $GITHUB_OUTPUT
+
+      - name: Approval for PRD deployments
+        if: ${{ github.event.inputs.env_type == 'prd' }}
+        uses: trstringer/manual-approval@v1
+        timeout-minutes: 10
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: boonwj,bnew11245
+          minimum-approvals: 1
+          issue-title: >-
+            Deploy Docs - ${{ github.ref_name }}
+          issue-body: >
+            Action | By | Environment | Ref Type | Ref Name
+
+            --- | --- | --- | --- | ---
+
+            ${{ github.workflow }} |
+            @${{ github.triggering_actor }} |
+            ${{ steps.check_arg.outputs.env_type_cap }} |
+            ${{ github.ref_type }} |
+            ${{ github.ref_name }}
+          exclude-workflow-initiator-as-approver: true
+          additional-approved-words: ''
+          additional-denied-words: ''
+
+      - name: Deployment
+        run: |
+          echo "Deployment will proceed"
+
+      - name: Variables in run
+        run: |
+          echo "env_type: ${{ steps.check_arg.outputs.env_type }}"
+          echo "env_type_cap: ${{ steps.check_arg.outputs.env_type_cap }}"
+
+  context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show All Context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "${GITHUB_CONTEXT}"
