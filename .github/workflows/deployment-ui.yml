@@ -65,7 +65,8 @@ jobs:
           token: ${{ secrets.APPROVAL_PAT }}
           workflow: approval.yml
           inputs: '{"title": "Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }}", "body": "Called by ${{ github.workflow }} in ${{github.repository }}", "triggered_by": "${{ github.triggering_actor }}", "run_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" }'
-          wait-for-completion-interval: 30s
+          wait-for-completion-interval: 20s
+          display-workflow-run-url-interval: 20s
 
       - name: Approval for PRD deployments
         if: ${{ github.event.inputs.env_type == 'prd' }}

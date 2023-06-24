@@ -25,7 +25,7 @@ jobs:
   seek_approval:
     runs-on: ubuntu-latest
     env:
-      APPROVERS: boonwj,bnew11245
+      APPROVERS: bnew11245
     steps:
       - name: Deny if triggered by admins
         if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}  # Substring match, if short ids may incorrectly match list of approvers
