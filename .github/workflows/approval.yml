@@ -40,12 +40,17 @@ jobs:
           secret: ${{ github.TOKEN }}
           approvers: join(env.APPROVERS, ',')
           minimum-approvals: 1
-          issue-title: |
-            ${{ fromJSON(github.event.inputs.title) }}
+          issue-title: >-
+            ${{ github.event.inputs.title }}
 
-          issue-body: |
-            ${{ fromJSON(github.event.inputs.body) }}
+          issue-body: >
+            Calling Run URL | By
 
+            --- | ---
+
+            ${{ github.event.inputs.run_url }} | @${{ github.event.inputs.triggered_by }}
+
+            ${{ github.event.inputs.body }}
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
           additional-denied-words: ''
