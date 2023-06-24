@@ -26,9 +26,11 @@ jobs:
         id: check_arg
         run: |
           env_type=${{ github.event.inputs.env_type }}
+          deploy_app="docs"
 
           echo "env_type=${env_type}" >> $GITHUB_OUTPUT
           echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
+          echo "deploy_app=${deploy_app}" >> $GITHUB_OUTPUT
 
       - name: Store build time
         id: build_time
@@ -45,14 +47,14 @@ jobs:
           approvers: boonwj,bnew11245
           minimum-approvals: 1
           issue-title: >-
-            Deploy Docs - ${{ github.ref_name }}
+            Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.deploy_app }}
 
           issue-body: >
-            Action | By | Environment | Ref Type | Ref Name
+            Action | By | App | Env | Ref Type | Ref Name
 
-            --- | --- | --- | --- | ---
+            --- | --- | --- | --- | --- | ---
 
-            ${{ github.workflow }} | @${{ github.triggering_actor }} | ${{ steps.check_arg.outputs.env_type_cap }} | ${{ github.ref_type }} | ${{ github.ref_name }}
+            ${{ github.workflow }} | @${{ github.triggering_actor }} | ${{ steps.check_arg.outputs.deploy_app }} |  ${{ steps.check_arg.outputs.env_type_cap }} | ${{ github.ref_type }} | ${{ github.ref_name }}
 
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
