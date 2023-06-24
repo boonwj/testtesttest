@@ -25,12 +25,12 @@ jobs:
   seek_approval:
     runs-on: ubuntu-latest
     env:
-      APPROVERS: [boonwj, bnew11245]
+      APPROVERS: boonwj,bnew11245
     steps:
       - name: Deny if triggered by admins
-        if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}
+        if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}  # Substring match, if short ids may incorrectly match list of approvers
         run: |
-          echo "::error::Triggering user cannot be in approver list"
+          echo "::error::Triggering user (${{ github.event.inputs.triggered_by }}) cannot be in approver list"
           exit 1
 
       - name: Approval
@@ -38,7 +38,7 @@ jobs:
         timeout-minutes: 10
         with:
           secret: ${{ github.TOKEN }}
-          approvers: ${{ join(fromJSON(env.APPROVERS), ',') }}
+          approvers: ${{ env.APPROVERS }}
           minimum-approvals: 1
           issue-title: >-
             ${{ github.event.inputs.title }}
