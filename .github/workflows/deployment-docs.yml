@@ -47,7 +47,7 @@ jobs:
           approvers: boonwj,bnew11245
           minimum-approvals: 1
           issue-title: >-
-            Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.deploy_app }}
+            Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }}
 
           issue-body: >
             Action | By | App | Env | Ref Type | Ref Name
