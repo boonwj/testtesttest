@@ -25,7 +25,7 @@ jobs:
   seek_approval:
     runs-on: ubuntu-latest
     env:
-      APPROVERS: ("boonwj" "bnew11245")
+      APPROVERS: ["boonwj", "bnew11245"]
     steps:
       - name: Deny if triggered by admins
         if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}
@@ -38,7 +38,7 @@ jobs:
         timeout-minutes: 10
         with:
           secret: ${{ github.TOKEN }}
-          approvers: ${{ join(env.APPROVERS, ',') }}
+          approvers: ${{ join(fromJSON(env.APPROVERS), ',') }}
           minimum-approvals: 1
           issue-title: >-
             ${{ github.event.inputs.title }}
