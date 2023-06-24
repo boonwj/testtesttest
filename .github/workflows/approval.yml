@@ -40,10 +40,10 @@ jobs:
           secret: ${{ github.TOKEN }}
           approvers: join(env.APPROVERS, ',')
           minimum-approvals: 1
-          issue-title: >-
+          issue-title: |
             ${{ fromJSON(github.event.inputs.title) }}
 
-          issue-body: >
+          issue-body: |
             ${{ fromJSON(github.event.inputs.body) }}
 
           exclude-workflow-initiator-as-approver: true
