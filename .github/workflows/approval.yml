@@ -12,23 +12,30 @@ on:
         description: 'content to be displayed in approval issue body'
         required: true
         type: string
+      triggered_by:
+        description: 'github user id of user requested approval'
+        required: true
+        type: string
 
 
 jobs:
-  build:
+  seek_approval:
     runs-on: ubuntu-latest
-
+    env:
+      APPROVERS: ("boonwj" "bnew11245")
     steps:
-      - name: Show All Context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "${GITHUB_CONTEXT}"
+      - name: Deny if triggered by admins
+        if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}
+        run: |
+          echo "::error::Triggering user cannot be in approver list"
+          exit 1
+
       - name: Approval
         uses: trstringer/manual-approval@v1
         timeout-minutes: 10
         with:
           secret: ${{ github.TOKEN }}
-          approvers: boonwj,bnew11245
+          approvers: join(env.APPROVERS, ',')
           minimum-approvals: 1
           issue-title: >-
             ${{ fromJSON(github.event.inputs.title) }}
@@ -39,4 +46,11 @@ jobs:
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
           additional-denied-words: ''
+
+  show_context:
+    steps:
+      - name: Show All Context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "${GITHUB_CONTEXT}"
 
