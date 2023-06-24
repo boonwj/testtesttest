@@ -70,11 +70,8 @@ jobs:
 
             --- | --- | --- | --- | ---
 
-            ${{ github.workflow }} |
-            @${{ github.triggering_actor }} |
-            ${{ steps.check_arg.outputs.env_type_cap }} |
-            ${{ github.ref_type }} |
-            ${{ github.ref_name }}
+            ${{ github.workflow }} | @${{ github.triggering_actor }} | ${{ steps.check_arg.outputs.docker_tag_cap }} | ${{ github.ref_type }} | ${{ github.ref_name }}
+
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
           additional-denied-words: ''

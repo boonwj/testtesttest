@@ -46,16 +46,14 @@ jobs:
           minimum-approvals: 1
           issue-title: >-
             Deploy Docs - ${{ github.ref_name }}
+
           issue-body: >
             Action | By | Environment | Ref Type | Ref Name
 
             --- | --- | --- | --- | ---
 
-            ${{ github.workflow }} |
-            @${{ github.triggering_actor }} |
-            ${{ steps.check_arg.outputs.env_type_cap }} |
-            ${{ github.ref_type }} |
-            ${{ github.ref_name }}
+            ${{ github.workflow }} | @${{ github.triggering_actor }} | ${{ steps.check_arg.outputs.env_type_cap }} | ${{ github.ref_type }} | ${{ github.ref_name }}
+
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
           additional-denied-words: ''
