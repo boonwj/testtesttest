@@ -1,23 +1,27 @@
-name: Approval Gate
+name: Approval
 run-name: ${{ github.event.inputs.title }}
 
 on:
   workflow_dispatch:
     inputs:
       title:
-        description: 'title to be displayed in approval issue'
+        description: 'title: title to be displayed in approval issue'
         required: true
         type: string
       body:
-        description: 'content to be displayed in approval issue body'
+        description: 'body: content to be displayed in approval issue body'
         required: true
         type: string
       triggered_by:
-        description: 'github user id of user requested approval'
+        description: 'triggered_by: github user id of user requested approval'
         required: true
         type: string
-      run_url:
-        description: 'run url of calling workflow'
+      caller_repo:
+        description: 'caller_repo: repository calling this workflow'
+        required: true
+        type: string
+      run_id:
+        description: 'run_id: run id of calling workflow'
         required: true
         type: string
 
@@ -27,10 +31,10 @@ jobs:
     env:
       APPROVERS: bnew11245
     steps:
-      - name: Deny if triggered by admins
-        if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}  # Substring match, if short ids may incorrectly match list of approvers
+      - name: Deny if called by admins
+        if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}  # Substring match, short ids may incorrectly match list of approvers
         run: |
-          echo "::error::Triggering user (${{ github.event.inputs.triggered_by }}) cannot be in approver list"
+          echo "::error::Calling user (${{ github.event.inputs.triggered_by }}) cannot be in approver list"
           exit 1
 
       - name: Approval
@@ -44,14 +48,16 @@ jobs:
             ${{ github.event.inputs.title }}
 
           issue-body: >
-            Calling Run URL | By
+            Caller Repo | Called By | Calling Run URL
 
-            --- | ---
+            --- | --- | ---
 
-            ${{ github.event.inputs.run_url }} | @${{ github.event.inputs.triggered_by }}
+            ${{ github.event.inputs.caller_repo }} | @${{ github.event.inputs.triggered_by }} | [link](https://github.com/${{ github.event.inputs.caller_repo }}/actions/runs/${{ github.event.inputs.run_id }})"
 
+            ---
 
             ${{ github.event.inputs.body }}
+
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
           additional-denied-words: ''
