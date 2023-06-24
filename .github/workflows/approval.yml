@@ -38,7 +38,7 @@ jobs:
         timeout-minutes: 10
         with:
           secret: ${{ github.TOKEN }}
-          approvers: join(env.APPROVERS, ',')
+          approvers: ${{ join(env.APPROVERS, ',') }}
           minimum-approvals: 1
           issue-title: >-
             ${{ github.event.inputs.title }}
