@@ -16,13 +16,16 @@ on:
         description: 'github user id of user requested approval'
         required: true
         type: string
-
+      run_url:
+        description: 'run url of calling workflow'
+        required: true
+        type: string
 
 jobs:
   seek_approval:
     runs-on: ubuntu-latest
     env:
-      APPROVERS: ("boonwj" "bnew11245")
+      APPROVERS: ("boonwj")
     steps:
       - name: Deny if triggered by admins
         if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}
