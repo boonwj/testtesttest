@@ -50,6 +50,7 @@ jobs:
 
             ${{ github.event.inputs.run_url }} | @${{ github.event.inputs.triggered_by }}
 
+
             ${{ github.event.inputs.body }}
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
