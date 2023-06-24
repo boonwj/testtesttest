@@ -1,5 +1,5 @@
 name: Deployment (core)
-run-name: Deploy to ${{ inputs.env_type }} by @${{ github.actor }}
+run-name: Deploy ${{ github.ref_name }} to ${{ inputs.env_type }} by @${{ github.actor }}
 
 # This is a dummy deployment for tcs-core
 
@@ -22,10 +22,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get deployment environment
-        id: deploy_info
+      - name: Check argument
+        id: check_arg
         run: |
           env_type="${{ github.event.inputs.env_type }}"
+          deploy_app="core"
 
           if [[ ${{ github.ref_type }} == "tag" ]]; then
             build_version="${GITHUB_REF#refs/tags/v}"
@@ -36,6 +37,7 @@ jobs:
           echo "env_type=${env_type}" >> $GITHUB_OUTPUT
           echo "env_type_cap=${env_type^^}" >> $GITHUB_OUTPUT
           echo "build_version=${build_version}" >> $GITHUB_OUTPUT
+          echo "deploy_app=${deploy_app}" >> $GITHUB_OUTPUT
 
       - name: Store build time
         id: build_time
@@ -46,9 +48,9 @@ jobs:
       - name: Get all variables
         run: |
           echo "Build Time: ${{ steps.build_time.outputs.build_time }}"
-          echo "Build Version: ${{ steps.deploy_info.outputs.build_version }}"
-          echo "Env Type: ${{ steps.deploy_info.outputs.env_type }}"
-          echo "Env Type Cap: ${{ steps.deploy_info.outputs.env_type_cap }}"
+          echo "Build Version: ${{ steps.check_arg.outputs.build_version }}"
+          echo "Env Type: ${{ steps.check_arg.outputs.env_type }}"
+          echo "Env Type Cap: ${{ steps.check_arg.outputs.env_type_cap }}"
 
       - name: Approval for PRD deployments
         if: ${{ github.event.inputs.env_type == 'prd' }}
@@ -59,17 +61,14 @@ jobs:
           approvers: boonwj,bnew11245
           minimum-approvals: 1
           issue-title: >-
-            Deploy Core - ${{ github.ref_name }}
+            Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }}
           issue-body: >
-            Action | By | Environment | Ref Type | Ref Name
+            Action | By | App | Env | Ref Type | Ref Name
 
-            --- | --- | --- | --- | ---
+            --- | --- | --- | --- | --- | ---
 
-            ${{ github.workflow }} |
-            @${{ github.triggering_actor }} |
-            ${{ steps.deploy_info.outputs.env_type_cap }} |
-            ${{ github.ref_type }} |
-            ${{ github.ref_name }}
+            ${{ github.workflow }} | @${{ github.triggering_actor }} | ${{ steps.check_arg.outputs.deploy_app }} |  ${{ steps.check_arg.outputs.env_type_cap }} | ${{ github.ref_type }} | ${{ github.ref_name }}
+
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
           additional-denied-words: ''
@@ -77,4 +76,4 @@ jobs:
       - name: Deployment
         run: |
           echo "Deployment will continue"
-          echo "${{ steps.deploy_info.outputs.env_type }}"
+          echo "${{ steps.check_arg.outputs.env_type }}"
