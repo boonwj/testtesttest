@@ -47,10 +47,9 @@ jobs:
 
       - name: Get all variables
         run: |
-          echo "Build Time: ${{ steps.build_time.outputs.build_time }}"
+          echo "Deployment Environment: ${{ steps.check_arg.outputs.env_type }}"
           echo "Build Version: ${{ steps.check_arg.outputs.build_version }}"
-          echo "Env Type: ${{ steps.check_arg.outputs.env_type }}"
-          echo "Env Type Cap: ${{ steps.check_arg.outputs.env_type_cap }}"
+          echo "Build Time: ${{ steps.build_time.outputs.build_time }}"
 
       - name: Approval for PRD deployments
         if: ${{ github.event.inputs.env_type == 'prd' }}
@@ -62,6 +61,7 @@ jobs:
           minimum-approvals: 1
           issue-title: >-
             Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }}
+
           issue-body: >
             Action | By | App | Env | Ref Type | Ref Name
 
