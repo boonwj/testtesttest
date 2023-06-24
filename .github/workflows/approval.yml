@@ -1,0 +1,42 @@
+name: Approval Gate
+run-name: ${{ github.event.inputs.title }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'title to be displayed in approval issue'
+        required: true
+        type: string
+      body:
+        description: 'content to be displayed in approval issue body'
+        required: true
+        type: string
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show All Context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "${GITHUB_CONTEXT}"
+      - name: Approval
+        uses: trstringer/manual-approval@v1
+        timeout-minutes: 10
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: boonwj,bnew11245
+          minimum-approvals: 1
+          issue-title: >-
+            ${{ fromJSON(github.event.inputs.title) }}
+
+          issue-body: >
+            ${{ fromJSON(github.event.inputs.body) }}
+
+          exclude-workflow-initiator-as-approver: true
+          additional-approved-words: ''
+          additional-denied-words: ''
+
