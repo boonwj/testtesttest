@@ -29,20 +29,20 @@ jobs:
   seek_approval:
     runs-on: ubuntu-latest
     env:
-      APPROVERS: bnew11245
+      APPROVERS: "{\"ids\": [\"bnew11245\", \"boonwj\"]}"
     steps:
-      - name: Deny if called by admins
-        if: ${{ contains(env.APPROVERS, github.event.inputs.triggered_by) }}  # Substring match, short ids may incorrectly match list of approvers
+      - name: Create approvers
         run: |
-          echo "::error::Calling user (${{ github.event.inputs.triggered_by }}) cannot be in approver list"
-          exit 1
+          RUN_APPROVERS=$(echo ${{ env.APPROVERS }} | jq -cr '.ids | map(select(. | contains("${{ github.event.inputs.triggered_by }}") | not)) | join(",")'
+          echo $RUN_APPROVERS
+          echo "RUN_APPROVERS=$RUN_APPROVERS" >> "$GITHUB_ENV"
 
       - name: Approval
         uses: trstringer/manual-approval@v1
         timeout-minutes: 10
         with:
           secret: ${{ github.TOKEN }}
-          approvers: ${{ env.APPROVERS }}
+          approvers: ${{ env.RUN_APPROVERS }}
           minimum-approvals: 1
           issue-title: >-
             ${{ github.event.inputs.title }}
@@ -52,7 +52,7 @@ jobs:
 
             --- | --- | ---
 
-            ${{ github.event.inputs.caller_repo }} | @${{ github.event.inputs.triggered_by }} | [link](https://github.com/${{ github.event.inputs.caller_repo }}/actions/runs/${{ github.event.inputs.run_id }})"
+            ${{ github.event.inputs.caller_repo }} | @${{ github.event.inputs.triggered_by }} | [link](https://github.com/${{ github.event.inputs.caller_repo }}/actions/runs/${{ github.event.inputs.run_id }})
 
             ---
 
