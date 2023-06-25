@@ -64,7 +64,8 @@ jobs:
           repo: boonwj/testtesttest
           token: ${{ secrets.APPROVAL_PAT }}
           workflow: approval.yml
-          inputs: '{"title": "Deploy ${{ github.ref_type }} ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }}", "body": "Called by ${{ github.workflow }} in ${{github.repository }}", "triggered_by": "${{ github.triggering_actor }}", "caller_repo": "${{ github.repository }}", "run_id": "${{ github.run_id }}"}'
+          ref: master
+          inputs: '{"title": "Deploy ${{ github.ref_type }} ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }}", "body": "Workflow ${{ github.workflow }} in ${{github.repository }} is trying to deploy ${{ steps.check_arg.outputs.deploy_app }} in ${{ steps.check_arg.outputs.env_type_cap }}", "triggered_by": "${{ github.triggering_actor }}", "caller_repo": "${{ github.repository }}", "run_id": "${{ github.run_id }}"}'
           wait-for-completion-interval: 20s
           display-workflow-run-url-interval: 20s
 
