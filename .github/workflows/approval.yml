@@ -54,9 +54,9 @@ jobs:
 
             ${{ github.event.inputs.caller_repo }} | @${{ github.event.inputs.triggered_by }} | [link](https://github.com/${{ github.event.inputs.caller_repo }}/actions/runs/${{ github.event.inputs.run_id }})
 
-            ---
-
             ${{ github.event.inputs.body }}
+
+            ---
 
           exclude-workflow-initiator-as-approver: true
           additional-approved-words: ''
