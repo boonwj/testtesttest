@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Create approvers
         run: |
-          RUN_APPROVERS=$(echo ${{ env.APPROVERS }} | jq -cr '.ids | map(select(. | contains("${{ github.event.inputs.triggered_by }}") | not)) | join(",")'
+          RUN_APPROVERS=$(echo ${{ env.APPROVERS }} | jq -cr '.ids | map(select(. | contains("${{ github.event.inputs.triggered_by }}") | not)) | join(",")')
           echo $RUN_APPROVERS
           echo "RUN_APPROVERS=$RUN_APPROVERS" >> "$GITHUB_ENV"
 
