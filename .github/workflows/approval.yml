@@ -47,11 +47,9 @@ jobs:
           issue-title: >-
             ${{ github.event.inputs.title }}
 
-          issue-body: >
+          issue-body: |
             Caller Repo | Called By | Calling Run URL
-
             --- | --- | ---
-
             ${{ github.event.inputs.caller_repo }} | @${{ github.event.inputs.triggered_by }} | [link](https://github.com/${{ github.event.inputs.caller_repo }}/actions/runs/${{ github.event.inputs.run_id }})
 
             ${{ github.event.inputs.body }}
