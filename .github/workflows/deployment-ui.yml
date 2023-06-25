@@ -65,7 +65,7 @@ jobs:
           token: ${{ secrets.APPROVAL_PAT }}
           workflow: approval.yml
           ref: main
-          inputs: '{"title": "Deploy to ${{ steps.check_arg.outputs.env_type_cap }} - ${{ steps.check_arg.outputs.deploy_app }} - ${{ github.ref_name }} (${{ github.ref_type }})", "body": "Workflow `${{ github.workflow }}` in `${{github.repository }}` requires approval to deploy `${{ github.ref_name }} (${{ github.ref_type }})` to `${{ steps.check_arg.outputs.deploy_app }}` in the `${{ steps.check_arg.outputs.env_type_cap }}` environment", "triggered_by": "${{ github.triggering_actor }}", "caller_repo": "${{ github.repository }}", "run_id": "${{ github.run_id }}"}'
+          inputs: '{"title": "Deploy ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }} with ${{ github.ref_name }} (${{ github.ref_type }})", "body": "Workflow `${{ github.workflow }}` in `${{github.repository }}` requires approval to deploy `${{ github.ref_name }} (${{ github.ref_type }})` to `${{ steps.check_arg.outputs.deploy_app }}` in the `${{ steps.check_arg.outputs.env_type_cap }}` environment", "triggered_by": "${{ github.triggering_actor }}", "caller_repo": "${{ github.repository }}", "run_id": "${{ github.run_id }}"}'
           wait-for-completion-interval: 20s
           display-workflow-run-url-interval: 20s
 
