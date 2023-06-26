@@ -57,7 +57,7 @@ jobs:
           build_time=`date +%s%N | cut -b1-13`
           echo "build_time=${build_time}" >> $GITHUB_OUTPUT
 
-      - name: Call Approval Action
+      - name: Seek approval for PRD deployments
         if: ${{ github.event.inputs.env_type == 'prd' }}
         uses: aurelien-baudet/workflow-dispatch@v2
         with:
@@ -78,7 +78,6 @@ jobs:
           echo "env_type: ${{ steps.check_arg.outputs.env_type }}"
           echo "env_type_cap: ${{ steps.check_arg.outputs.env_type_cap }}"
           echo "docker_tag: ${{ steps.check_arg.outputs.docker_tag }}"
-          echo "docker_tag_cap: ${{ steps.check_arg.outputs.docker_tag_cap }}"
           echo "is_maintenance: ${{ steps.check_arg.outputs.is_maintenance }}"
           echo "build_time: ${{ steps.build_time.outputs.build_time}}"
           echo "maintenance_end_time: ${{github.event.inputs.maintenance_end_time }}"

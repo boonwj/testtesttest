@@ -1,5 +1,5 @@
 name: Deployment (docs)
-run-name: Deploy ${{ github.ref_name }} to ${{ inputs.env_type }} by @${{ github.actor }}
+run-name: ${{ inputs.env_type }} -- Deploy ${{ github.ref_name }}
 
 # This is mock of the ui deployment
 
@@ -38,27 +38,17 @@ jobs:
           build_time=`date +%s%N | cut -b1-13`
           echo "build_time=${build_time}" >> $GITHUB_OUTPUT
 
-      - name: Approval for PRD deployments
+      - name: Seek approval for PRD deployments
         if: ${{ github.event.inputs.env_type == 'prd' }}
-        uses: trstringer/manual-approval@v1
-        timeout-minutes: 10
+        uses: aurelien-baudet/workflow-dispatch@v2
         with:
-          secret: ${{ github.TOKEN }}
-          approvers: boonwj,bnew11245
-          minimum-approvals: 1
-          issue-title: >-
-            Deploy ${{ github.ref_name }} to ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }}
-
-          issue-body: >
-            Action | By | App | Env | Ref Type | Ref Name
-
-            --- | --- | --- | --- | --- | ---
-
-            ${{ github.workflow }} | @${{ github.triggering_actor }} | ${{ steps.check_arg.outputs.deploy_app }} |  ${{ steps.check_arg.outputs.env_type_cap }} | ${{ github.ref_type }} | ${{ github.ref_name }}
-
-          exclude-workflow-initiator-as-approver: true
-          additional-approved-words: ''
-          additional-denied-words: ''
+          repo: boonwj/testtesttest
+          token: ${{ secrets.APPROVAL_PAT }}
+          workflow: approval.yml
+          ref: main
+          inputs: '{"title": "Deploy ${{ steps.check_arg.outputs.env_type_cap }} ${{ steps.check_arg.outputs.deploy_app }} with ${{ github.ref_name }} (${{ github.ref_type }})", "body": "Workflow `${{ github.workflow }}` in `${{github.repository }}` requires approval to deploy `${{ github.ref_name }} (${{ github.ref_type }})` to `${{ steps.check_arg.outputs.deploy_app }}` in the `${{ steps.check_arg.outputs.env_type_cap }}` environment", "triggered_by": "${{ github.triggering_actor }}", "caller_repo": "${{ github.repository }}", "run_id": "${{ github.run_id }}"}'
+          wait-for-completion-interval: 20s
+          display-workflow-run-url-interval: 20s
 
       - name: Deployment
         run: |
