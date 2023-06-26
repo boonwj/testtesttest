@@ -1,4 +1,4 @@
-name: Approval
+name: Seek approval
 run-name: ${{ github.event.inputs.title }}
 
 on:
@@ -31,10 +31,10 @@ jobs:
     env:
       APPROVERS: "{\"ids\": [\"bnew11245\", \"boonwj\"]}"
     steps:
-      - name: Create approvers
+      - name: Get run approvers
         run: |
           RUN_APPROVERS=$(echo '${{ env.APPROVERS }}' | jq -cr '.ids | map(select(. | contains("${{ github.event.inputs.triggered_by }}") | not)) | join(",")')
-          echo $RUN_APPROVERS
+          echo "Github approvers for this run: $RUN_APPROVERS"
           echo "RUN_APPROVERS=$RUN_APPROVERS" >> "$GITHUB_ENV"
 
       - name: Approval
