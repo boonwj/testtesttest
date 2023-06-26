@@ -1,5 +1,5 @@
 name: Deployment (core)
-run-name: Deploy ${{ github.ref_name }} to ${{ inputs.env_type }} by @${{ github.actor }}
+run-name: ${{ inputs.env_type }} -- Deploy ${{ github.ref_name }}
 
 # This is a dummy deployment for tcs-core
 
