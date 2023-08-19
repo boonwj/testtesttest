@@ -10,9 +10,9 @@ jobs:
     steps:
       - uses: anchore/sbom-action@v0
         with:
-          image: hub.docker.com/_/alpine:latest
+          image: alpine:latest
           artifact-name: alpine.spdx
       - uses: anchore/sbom-action@v0
         with:
-          image: hub.docker.com/_/python:3.8
+          image: python:3.8
           artifact-name: python.spdx
