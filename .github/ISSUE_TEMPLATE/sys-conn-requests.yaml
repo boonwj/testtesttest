@@ -1,6 +1,9 @@
+---
 name: System Connection Form
-description: Use this template to provide the necessary information required for sys-conn setup. It also provides a tracking list for admins to perform.
-title: "[Sys Conn Request]: "
+description: >
+  Use this template to provide the necessary information required for sys-conn setup.
+  It also provides a tracking list for actions an admins needs to perform.
+title: "[Sys-Conn Request]: "
 labels: "service request"
 assignees:
   - boonwj
@@ -8,8 +11,8 @@ assignees:
 body:
   - type: markdown
     attributes:
-        value: |
-            ## Please fill in the necessary information for the system connection setup
+      value: |
+        ## System Connection Setup Details
   - type: input
     id: dr-id
     attributes:
@@ -64,14 +67,23 @@ body:
       label: Other Information
       description: Any other information to provide for this system connection?
   - type: markdown
-    attributes: 
-      value: | 
-        ## Admin Actions Checklist
-        - [ ] (SPN auth only) Raise AIS SR to add new role in app registration (i.e. session:role:dr_id_lower_case)
-        - [ ] (SPN auth only) Raise AIS SR to grant service principal new role in app (i.e. session:role:public & session:role:dr_id_lower_case)
+    attributes:
+      value: |
+        ## Admin Checklist
+        ### SPN Authentication
+        - [ ] Raise AIS SR to add new role in app registration
+          - i.e. session:role:dr_id_lower_case
+        - [ ] Raise AIS SR to grant SPN role in app
+          - i.e. session:role:public & session:role:dr_id_lower_case
+        - [ ] Store AIS SRs into DCS folder
+          - <directory path here>
         - [ ] Check SPN's object ID (using cli tool)
-        - [ ] Add user object ID into cosmosdb
+        - [ ] Add user into cosmosdb via SPN Object ID
         - [ ] Create user and grant permissions in SF environment
           - (API users) Whitelist Function App IPs
           - (SF users) Whitelist calling system IP
           - Grant user permission to the DR
+        ### Key Pair Authentication
+        - [ ] Create user and grant permissions in SF environment
+          - Whitelist calling system IP
+          - Grant user permission to the data request
