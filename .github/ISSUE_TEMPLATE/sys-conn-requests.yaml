@@ -9,7 +9,7 @@ body:
   - type: markdown
     attributes:
         value: |
-            Please fill in the necessary information for the sys conn setup
+            ## Please fill in the necessary information for the system connection setup
   - type: input
     id: dr-id
     attributes:
@@ -48,6 +48,11 @@ body:
       placeholder: spn-<agency>-<project>-<env>-<name>
     validations:
       required: true
+  - type: input
+    id: ip-whitelist
+    attributes:
+      label: System IP address(es)
+      description: The IP address(es) used by the calling system
   - type: textarea
     id: public-key
     attributes:
@@ -57,4 +62,16 @@ body:
     id: misc
     attributes:
       label: Other Information
-      description: Any other information for this
+      description: Any other information to provide for this system connection?
+  - type: markdown
+    attributes: 
+      value: | 
+        ## Admin Actions Checklist
+        - [ ] (SPN auth only) Raise AIS SR to add new role in app registration (i.e. session:role:dr_id_lower_case)
+        - [ ] (SPN auth only) Raise AIS SR to grant service principal new role in app (i.e. session:role:public & session:role:dr_id_lower_case)
+        - [ ] Check SPN's object ID (using cli tool)
+        - [ ] Add user object ID into cosmosdb
+        - [ ] Create user and grant permissions in SF environment
+          - (API users) Whitelist Function App IPs
+          - (SF users) Whitelist calling system IP
+          - Grant user permission to the DR
