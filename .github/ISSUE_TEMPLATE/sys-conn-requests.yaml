@@ -1,0 +1,60 @@
+name: System Connection Form
+description: Use this template to provide the necessary information required for sys-conn setup. It also provides a tracking list for admins to perform.
+title: "[Sys Conn Request]: "
+labels: "service request"
+assignees:
+  - boonwj
+  - wykeith
+body:
+  - type: markdown
+    attributes:
+        value: |
+            Please fill in the necessary information for the sys conn setup
+  - type: input
+    id: dr-id
+    attributes:
+      label: Data Request ID(s)
+      description: The Data Request (DR) ID(s) that will be used by this system connection.
+      placeholder: DUMMY-2024-08-001, DUMMY-2024-05-005
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: Which environment is this for (PRD / STG)
+      options:
+        - PRD
+        - STG
+    validations:
+      required: true
+  - type: dropdown
+    id: sys-conn-type
+    attributes:
+      label: System Connection Type
+      description: What type of system connection?
+      multiple: true
+      options:
+        - API (SPN)
+        - SF (SPN)
+        - SF (Key Pair)
+    validations:
+      required: true
+  - type: input
+    id: spn-name
+    attributes:
+      label: Service Principal Name
+      description: The service principal name that will use the system connection
+      placeholder: spn-<agency>-<project>-<env>-<name>
+    validations:
+      required: true
+  - type: textarea
+    id: public-key
+    attributes:
+      label: Public Key (if used)
+      description: The public key that will be used for Key Pair authentication
+  - type: textarea
+    id: misc
+    attributes:
+      label: Other Information
+      description: Any other information for this
