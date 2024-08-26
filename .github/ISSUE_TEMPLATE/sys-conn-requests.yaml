@@ -92,13 +92,13 @@ body:
         > Access have been granted to:
         >
         > - SPN Name: spn-...
-        > - Data Requests: <DR IDs>
+        > - Data Requests: DR_IDs
         
         ### For SF (SPN)
         > Access have been granted to:
         > 
         > - SPN Name: spn-...
-        > - Data Requests: <DR IDs>
+        > - Data Requests: DR_IDs
         > - Snowflake Details:
         >   - Database: ...
         >   - Schema: ...
@@ -108,7 +108,8 @@ body:
         > Access have been granted to:
         >
         > - Name: spn-...
-        > - User ID: <UUID value>
+        > - User ID: UUID value assigned to user
+        > - Data Requests: DR_IDs
         > - Snowflake Details: 
         >   - Database: ...
         >   - Schema: ... 
