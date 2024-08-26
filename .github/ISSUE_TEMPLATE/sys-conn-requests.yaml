@@ -78,7 +78,7 @@ body:
         - [ ] Raise AIS SR to grant SPN role in app
           - i.e. session:role:public & session:role:dr_id_lower_case
         - [ ] Store AIS SRs into DCS folder
-          - INSERT DIRECTORY PATH HERE
+          - `INSERT DIRECTORY PATH HERE`
         - [ ] Check SPN's object ID (OID, using cli tool)
         - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
         - [ ] Notify users 
