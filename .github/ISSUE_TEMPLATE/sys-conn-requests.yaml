@@ -56,6 +56,8 @@ body:
     attributes:
       label: System IP address(es)
       description: The IP address(es) used by the calling system
+    validations:
+      required: true
   - type: textarea
     id: public-key
     attributes:
@@ -69,21 +71,20 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Admin Checklist
+        ## Admin Checklist        
         ### SPN Authentication
         - [ ] Raise AIS SR to add new role in app registration
           - i.e. session:role:dr_id_lower_case
         - [ ] Raise AIS SR to grant SPN role in app
           - i.e. session:role:public & session:role:dr_id_lower_case
         - [ ] Store AIS SRs into DCS folder
-          - <directory path here>
-        - [ ] Check SPN's object ID (using cli tool)
-        - [ ] Add user into cosmosdb via SPN Object ID
-        - [ ] Create user and grant permissions in SF environment
-          - (API users) Whitelist Function App IPs
-          - (SF users) Whitelist calling system IP
-          - Grant user permission to the DR
+          - INSERT DIRECTORY PATH HERE
+        - [ ] Check SPN's object ID (OID, using cli tool)
+        - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
+        - [ ] Notify users 
         ### Key Pair Authentication
-        - [ ] Create user and grant permissions in SF environment
-          - Whitelist calling system IP
-          - Grant user permission to the data request
+        - [ ] Generate a `user_id` (using UUID4)
+          - Either via: https://www.uuidgenerator.net/ or `python -c 'import uuid; print(uuid.uuid4())'`
+        - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
+        - [ ] Notify users
+        > Users 
