@@ -87,4 +87,26 @@ body:
           - Either via: https://www.uuidgenerator.net/ or `python -c 'import uuid; print(uuid.uuid4())'`
         - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
         - [ ] Notify users
-        > Users 
+        ## Email Template
+        ### For API (SPN)
+        > Access have been granted to:
+        - SPN Name: spn-...
+        - Data Requests: <DR IDs>
+        
+        ### For SF (SPN)
+        > Access have been granted to:
+        - SPN Name: spn-...
+        - Data Requests: <DR IDs>
+        - Snowflake Database Details:
+          - Database: TCS_REQUESTS
+          - Schema: ...
+          - Role: ...
+        
+        ### For SF (Key Pair)
+        > Access have been granted to:
+        - Name: spn-...
+        - User ID: <UUID value>
+        - Snowflake Database Details:
+          - Database: TCS_REQUESTS
+          - Schema: ...
+          - Role: ...
