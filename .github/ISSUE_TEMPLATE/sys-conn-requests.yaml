@@ -90,8 +90,8 @@ body:
           - Either via: https://www.uuidgenerator.net/ or `python -c 'import uuid; print(uuid.uuid4())'`
         - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
         - [ ] Notify users
-        ### For SF Connection
-        - [ ] Whitelist system IP addresses 
+        ### For Snowflake Connection
+        - [ ] Whitelist system IP addresses on Subnet NSG
         ## Email Template
         ### For API (SPN)
         > Access have been granted to:
