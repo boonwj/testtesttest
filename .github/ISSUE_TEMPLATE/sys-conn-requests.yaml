@@ -68,9 +68,11 @@ body:
     attributes:
       label: Other Information
       description: Any other information to provide for this system connection?
-  - type: markdown
+  - type: textarea
+    id: admin-checklist
     attributes:
-      value: |
+      
+      placeholder: |
         ---
         ## Admin Checklist        
         ### SPN Authentication
@@ -80,7 +82,7 @@ body:
           - i.e. session:role:public & session:role:dr_id_lower_case
         - [ ] Store AIS SRs into DCS folder
           - `INSERT DIRECTORY PATH HERE`
-        - [ ] Check SPN's object ID (OID, using cli tool)
+        - [ ] Check SPN's object ID (OID, using azure cli)
         - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
         - [ ] Notify users 
         ### Key Pair Authentication
@@ -88,6 +90,8 @@ body:
           - Either via: https://www.uuidgenerator.net/ or `python -c 'import uuid; print(uuid.uuid4())'`
         - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
         - [ ] Notify users
+        ### For SF Connection
+        - [ ] Whitelist system IP addresses 
         ## Email Template
         ### For API (SPN)
         > Access have been granted to:
