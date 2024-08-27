@@ -74,7 +74,6 @@ body:
       label: Admin Checklist
       value: |
         ---
-        ## Admin Checklist        
         ### SPN Authentication
         - [ ] Raise AIS SR to add new role in app registration
           - i.e. session:role:dr_id_lower_case
