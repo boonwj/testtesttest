@@ -72,7 +72,7 @@ body:
     id: admin-checklist
     attributes:
       label: Admin Checklist
-      placeholder: |
+      value: |
         ---
         ## Admin Checklist        
         ### SPN Authentication
