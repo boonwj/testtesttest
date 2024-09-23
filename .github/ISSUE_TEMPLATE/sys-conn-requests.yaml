@@ -35,20 +35,37 @@ body:
     id: sys-conn-type
     attributes:
       label: System Connection Type
-      description: What type of system connection?
-      multiple: true
+      description: What type of system connection
       options:
-        - API (SPN)
-        - SF (SPN)
-        - SF (Key Pair)
+        - SF/API (via Azure SPN)
+        - SF (via Key Pair)
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        ### Service Principal Information 
+        Azure SPN:
+        - Service Principal Name: Use the same name as the Azure SPN (e.g. `spn-govtech-tcs-prd-apiuser`)
+        - Service Principal ID: Use the Object ID (OID) of the Azure SPN. If required, query via Azure CLI.
+
+        Key Pair:
+        - Service Principal Name: Give it a meaningful name with dhuser prefix (e.g. `dhuser-govtech-tcs-prd-01)
+        - Service Principal ID: Generate UUID4 value either via https://www.uuidgenerator.net/ or `python -c 'import uuid; print(uuid.uuid4())'`
+
   - type: input
     id: spn-name
     attributes:
       label: Service Principal Name
       description: The service principal name that will use the system connection
-      placeholder: spn-<agency>-<project>-<env>-<name>
+      placeholder: <spn|dhuser>-<agency>-<project>-<env>-<name>
+    validations:
+      required: true
+  - type: input
+    id: spn-id
+    attributes:
+      label: Service Principal ID
+      description: The service principal login ID
     validations:
       required: true
   - type: input
@@ -56,8 +73,6 @@ body:
     attributes:
       label: System IP address(es)
       description: The IP address(es) used by the calling system
-    validations:
-      required: true
   - type: textarea
     id: public-key
     attributes:
@@ -74,47 +89,45 @@ body:
       label: Admin Checklist
       value: |
         ---
-        ### SPN Authentication
+        ### (Azure SPN Only) AIS SRs for Authentication
         - [ ] Raise AIS SR to add new role in app registration
           - i.e. session:role:dr_id_lower_case
         - [ ] Raise AIS SR to grant SPN role in app
           - i.e. session:role:public & session:role:dr_id_lower_case
         - [ ] Store AIS SRs into DCS folder
-          - `INSERT DIRECTORY PATH HERE`
-        - [ ] Check SPN's object ID (OID, using azure cli)
-        - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
+          - `145 - TC Sensors / 7. System Connection / AIS Service Requests`
+        
+        ### (SF Only) Whitelist IPs on NSG
+        - [ ] Whitelist system IP addresses on privatelink NSG
+
+        ### (All) Configure sys-conn
+        - [ ] PR setup notebook to  `notebooks/sys-conn/<env>/` in `tcs-core`: https://github.com/dsaidgovsg/tcs-core/tree/master/notebooks/sys-conn
         - [ ] Notify users 
-        ### Key Pair Authentication
-        - [ ] Generate a `user_id` (using UUID4)
-          - Either via: https://www.uuidgenerator.net/ or `python -c 'import uuid; print(uuid.uuid4())'`
-        - [ ] PR copy of `notebooks/frontend/onboard_sys_conn_service_principal.py` in `tcs-core`
-        - [ ] Notify users
-        ### For Snowflake Connection
-        - [ ] Whitelist system IP addresses on Subnet NSG
+        
         ## Email Template
         ### For API (SPN)
         > Access have been granted to:
         >
         > - SPN Name: spn-...
         > - Data Requests: DR_IDs
-        
+
         ### For SF (SPN)
         > Access have been granted to:
-        > 
+        >
         > - SPN Name: spn-...
         > - Data Requests: DR_IDs
         > - Snowflake Details:
         >   - Database: ...
         >   - Schema: ...
         >   - Role: ...
-        
+
         ### For SF (Key Pair)
         > Access have been granted to:
         >
-        > - Name: spn-...
+        > - Name: dhuser-...
         > - User ID: UUID value assigned to user
         > - Data Requests: DR_IDs
-        > - Snowflake Details: 
+        > - Snowflake Details:
         >   - Database: ...
-        >   - Schema: ... 
+        >   - Schema: ...
         >   - Role: ...
