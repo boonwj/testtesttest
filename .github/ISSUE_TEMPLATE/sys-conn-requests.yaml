@@ -35,21 +35,10 @@ body:
     id: sys-conn-type
     attributes:
       label: System Connection Type
-      description: What type of system connection?
-      multiple: true
+      description: What type of system connection
       options:
-        - API
-        - SF 
-    validations:
-      required: true
- - type: dropdown
-    id: auth-type
-    attributes:
-      label: Authentication method
-      description: Which authentication method will be used?
-      options:
-        - Azure SPN
-        - Key Pair
+        - SF/API (via Azure SPN)
+        - SF (via Key Pair)
     validations:
       required: true
   - type: markdown
