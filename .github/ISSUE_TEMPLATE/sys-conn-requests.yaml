@@ -52,8 +52,6 @@ body:
         - Key Pair
     validations:
       required: true
-    validations:
-      required: true
   - type: markdown
     attributes:
       value: |
