@@ -50,7 +50,7 @@ body:
         - Service Principal ID: Use the Object ID (OID) of the Azure SPN. If required, query via Azure CLI.
 
         Key Pair:
-        - Service Principal Name: Give it a meaningful name with dhuser prefix (e.g. `dhuser-govtech-tcs-prd-01)
+        - Service Principal Name: Give it a name with dhuser prefix (e.g. `dhuser-govtech-tcs-prd-01`)
         - Service Principal ID: Generate UUID4 value either via https://www.uuidgenerator.net/ or `python -c 'import uuid; print(uuid.uuid4())'`
 
   - type: input
@@ -101,7 +101,7 @@ body:
         - [ ] Whitelist system IP addresses on privatelink NSG
 
         ### (All) Configure sys-conn
-        - [ ] PR setup notebook to  `notebooks/sys-conn/<env>/` in `tcs-core`: https://github.com/dsaidgovsg/tcs-core/tree/master/notebooks/sys-conn
+        - [ ] PR setup notebook to `notebooks/sys-conn/<env>/` in `tcs-core`: https://github.com/dsaidgovsg/tcs-core/tree/master/notebooks/sys-conn
         - [ ] Notify users 
         
         ## Email Template
