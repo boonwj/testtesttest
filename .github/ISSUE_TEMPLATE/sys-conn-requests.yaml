@@ -35,10 +35,22 @@ body:
     id: sys-conn-type
     attributes:
       label: System Connection Type
-      description: What type of system connection
+      description: What type of system connection(s)
+      multiple: true
       options:
-        - SF/API (via Azure SPN)
-        - SF (via Key Pair)
+        - API 
+        - SF
+    validations:
+      required: true
+  - type: dropdown
+    id: auth-method
+    attributes:
+      label: Authentication Method
+      description: What authentication method will be used
+      multiple: false
+      options:
+        - Azure SPN
+        - Key Pair
     validations:
       required: true
   - type: markdown
@@ -78,6 +90,7 @@ body:
     attributes:
       label: Public Key (if used)
       description: The public key that will be used for Key Pair authentication
+      render: terminal
   - type: textarea
     id: misc
     attributes:
