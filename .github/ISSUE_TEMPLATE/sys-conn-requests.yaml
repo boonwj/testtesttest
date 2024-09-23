@@ -78,7 +78,6 @@ body:
     attributes:
       label: Service Principal ID
       description: The service principal login ID
-      placeholder: f81d4fae-7dec-11d0-a765-00a0c91e6bf6
     validations:
       required: true
   - type: input
