@@ -29,7 +29,7 @@ jobs:
             });
             const duplicate = existing.find(issue => issue.title === title);
             if (duplicate) {
-              console.log(`Issue "${title}" already exists: ${duplicate.html_url}`);
+              core.setFailed(`Issue "${title}" already exists: ${duplicate.html_url}`);
               return;
             }
 
@@ -41,10 +41,10 @@ jobs:
                 'Chores for the month.',
                 '',
                 '- [ ] Update DataHive CDO List',
-                '- [ ] Update VM patch count - [Link](https://example.com)',
-                "- [ ] Track all maintenance and outages for last month - [Intranet Only](https://example.com)",
-                "- [ ] Verify that incidents from last month are tracked - [Link](https://example.com)",
-                '- [ ] Update firewall with gitsir blocklist - [List Link](https://example.com)',
-                '- [ ] ABLR log review - [Link](https://example.com)',
+                '- [ ] Update VM patch count',
+                "- [ ] Track all maintenance and outages for last month",
+                "- [ ] Verify that incidents from last month are tracked",
+                '- [ ] Update firewall with gitsir blocklist',
+                '- [ ] ABLR log review - [Link](https://self-service.gcsoc.tech.gov.sg/)',
               ].join('\n'),
             });
