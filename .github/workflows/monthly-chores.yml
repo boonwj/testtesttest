@@ -12,7 +12,7 @@ jobs:
       issues: write
     steps:
       - name: Create monthly chores issue
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const now = new Date();
@@ -21,13 +21,10 @@ jobs:
             const label = `${year}-${month}`;
 
             const title = `Monthly Chores - ${label}`;
-            const { data: existing } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'all',
-              creator: 'github-actions[bot]',
+            const { data: existing } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${title}"`,
             });
-            const duplicate = existing.find(issue => issue.title === title);
+            const duplicate = existing.items.find(issue => issue.title === title);
             if (duplicate) {
               core.setFailed(`Issue "${title}" already exists: ${duplicate.html_url}`);
               return;
