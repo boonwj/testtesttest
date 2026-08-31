@@ -20,17 +20,31 @@ jobs:
             const month = String(now.getUTCMonth() + 1).padStart(2, '0');
             const label = `${year}-${month}`;
 
+            const title = `Monthly Chores - ${label}`;
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              creator: 'github-actions[bot]',
+            });
+            const duplicate = existing.find(issue => issue.title === title);
+            if (duplicate) {
+              console.log(`Issue "${title}" already exists: ${duplicate.html_url}`);
+              return;
+            }
+
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `Monthly Chores - ${label}`,
+              title,
               body: [
                 'Chores for the month.',
                 '',
-                '- [ ] Update CDO List',
-                '- [ ] Update VM patch count',
-                "- [ ] Compute last month's downtime",
-                '- [ ] Update firewall with gitsir blocklist',
-                '- [ ] ABLR log review - [Link](https://self-service.gcsoc.tech.gov.sg/)',
+                '- [ ] Update DataHive CDO List',
+                '- [ ] Update VM patch count - [Link](https://example.com)',
+                "- [ ] Track all maintenance and outages for last month - [Intranet Only](https://example.com)",
+                "- [ ] Verify that incidents from last month are tracked - [Link](https://example.com)",
+                '- [ ] Update firewall with gitsir blocklist - [List Link](https://example.com)',
+                '- [ ] ABLR log review - [Link](https://example.com)',
               ].join('\n'),
             });
